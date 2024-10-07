@@ -12,13 +12,13 @@ public class Rod : MonoBehaviour
     [SerializeField] PlayerTouchScreen _playerTouchScreen;
     [SerializeField] RodUI _rodUI;
     [Header("Bait")]
-    [SerializeField] GameObject _baitPrefab;
+    [SerializeField] Bait _baitPrefab;
     [SerializeField] Image _spawnPoint;
     
     [SerializeField] Vector3 start;
     [SerializeField] Vector3 end;
     Vector2 _screenPoint = Vector2.zero;
-    [SerializeField]GameObject _baitObject;
+    [SerializeField]Bait _baitObject;
 
     [Header("State")]
     public RodState RodState;
@@ -52,6 +52,13 @@ public class Rod : MonoBehaviour
         end.z = -0.1f;
         RodState = RodState.Casting;
         _baitObject = Instantiate(_baitPrefab, start, Quaternion.identity);
+        _baitObject.ObserveEveryValueChanged(_ => _.HasFish).Subscribe(hasFish =>
+        {
+            if(hasFish)
+            {
+                RodState = RodState.Staying;
+            }
+        }).AddTo(this);
         _baitObject.transform.DOMove(end, _castingSpeed).OnComplete(() => {
             RodState = RodState.Staying;
         });
@@ -63,6 +70,7 @@ public class Rod : MonoBehaviour
         if(RodState == RodState.Draging || RodState == RodState.Staying)
         {
             var direction = start - _baitObject.transform.position;
+            direction.z = 0;
             var distance = Vector3.Distance(_baitObject.transform.position, start);
             if (distance <= _reachToRodDistance)
             {
@@ -79,7 +87,7 @@ public class Rod : MonoBehaviour
     [Button]
     public void DestroyBait()
     {
-        Destroy(_baitObject);
+        _baitObject.Dispose();
         _baitObject = null;
         RodState = RodState.None;
         _rodUI.Reset();

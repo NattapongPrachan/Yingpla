@@ -18,3 +18,7 @@ public enum FishState
 {
     Moving,Interesting
 }
+public struct TagKeys
+{
+    public static readonly string Bait = "Bait";
+}
