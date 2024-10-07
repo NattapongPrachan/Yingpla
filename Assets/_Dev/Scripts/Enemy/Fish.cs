@@ -15,7 +15,7 @@ public class Fish : MonoBehaviour
     }
     public void CatchBait(Transform baitTransofrm)
     {
-
+        _baitTransform = baitTransofrm;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
