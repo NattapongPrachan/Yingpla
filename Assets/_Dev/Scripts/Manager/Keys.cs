@@ -14,3 +14,7 @@ public enum BaitState
 {
 
 }
+public enum FishState
+{
+    Moving,Interesting
+}

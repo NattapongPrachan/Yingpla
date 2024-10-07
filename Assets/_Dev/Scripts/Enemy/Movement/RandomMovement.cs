@@ -31,4 +31,8 @@ public class RandomMovement : MonoBehaviour
     {
        // transform.position = AreaManager.GetOuterBounds();
     }
+    public void Dispose()
+    {
+        transform.DOKill();
+    }
 }
