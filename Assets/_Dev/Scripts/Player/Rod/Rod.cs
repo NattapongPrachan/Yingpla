@@ -52,6 +52,7 @@ public class Rod : MonoBehaviour
         end.z = 0f;
         RodState = RodState.Casting;
         _baitObject = Instantiate(_baitPrefab, start, Quaternion.identity);
+        _baitObject.BaitStart = start;
         _baitObject.ObserveEveryValueChanged(_ => _.HasFish).Subscribe(hasFish =>
         {
             if(hasFish)
@@ -80,7 +81,6 @@ public class Rod : MonoBehaviour
             {
                 _baitObject.transform.position += direction.normalized * _dragSpeed * Time.deltaTime;
             }
- 
         }
         
     }

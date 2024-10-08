@@ -8,5 +8,8 @@ public class FishStatsData : ScriptableObject
     public float TimeToKnockDown;
     public float Speed;
     public float RegenRate;
-    
+    public bool IsCatch = false;
+    public bool IsStun = false;
+    public float Power = 1;
+    public FishState State;
 }

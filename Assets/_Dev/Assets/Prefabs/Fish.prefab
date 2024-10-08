@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 9083024580057874628}
   - component: {fileID: 1812171825638043603}
   - component: {fileID: 2547646585774012295}
+  - component: {fileID: 466101826474665788}
   - component: {fileID: 6464482933354490513}
   - component: {fileID: 8582949974420073488}
   m_Layer: 9
@@ -225,7 +226,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mouseTransform: {fileID: 5581749850520670648}
   _baitTransform: {fileID: 0}
-  _fishStatsData: {fileID: 11400000, guid: 6efccd822678efc4fb4b95611cf799b3, type: 2}
+  FishStatsData: {fileID: 11400000, guid: 6efccd822678efc4fb4b95611cf799b3, type: 2}
+  rand: 0
+--- !u!114 &466101826474665788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5198767112246353989}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f99f9a88245864ebc6965e2cb86126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RodPosition: {x: 0, y: 0, z: 0}
+  _fish: {fileID: 2547646585774012295}
 --- !u!50 &6464482933354490513
 Rigidbody2D:
   serializedVersion: 4

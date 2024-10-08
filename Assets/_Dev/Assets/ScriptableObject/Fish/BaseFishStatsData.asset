@@ -14,4 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stamina: 10
   TimeToKnockDown: 0
-  Speed: 1
+  Speed: 1.5
+  RegenRate: 0
+  IsCatch: 0
+  IsStun: 0
+  Power: 1
+  State: 2
