@@ -13,10 +13,6 @@ public class Bait : MonoBehaviour
         _fish = fish;
         transform.DOKill();
     }
-    public void Casting()
-    {
-
-    }
     public void Dispose()
     {
         _fish?.ReleaseBait();

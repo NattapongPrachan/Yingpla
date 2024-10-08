@@ -49,7 +49,7 @@ public class Rod : MonoBehaviour
         _spawnPoint.transform.rotation = Quaternion.Euler(0, 0, GameUtils.CalculateAngleFromDirection(direction));
         RectTransformUtility.ScreenPointToWorldPointInRectangle(_spawnPoint.rectTransform, _spawnPoint.transform.position, Camera.main, out start);
         end = Camera.main.ScreenToWorldPoint(_screenPoint);
-        end.z = -0.1f;
+        end.z = 0f;
         RodState = RodState.Casting;
         _baitObject = Instantiate(_baitPrefab, start, Quaternion.identity);
         _baitObject.ObserveEveryValueChanged(_ => _.HasFish).Subscribe(hasFish =>

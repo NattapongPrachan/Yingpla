@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fish (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5198767112246353989, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7594020362593527633, guid: 926747c24792400458756afa6dae4f51, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.22
@@ -301,7 +305,7 @@ Transform:
   m_GameObject: {fileID: 44342209}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7815,6 +7819,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590ca9a2d3dd60f46b2f5d21e85fc70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rodImage: {fileID: 1557323502}
+  _spawnPoint: {fileID: 1272220961}
   _lineRenderer: {fileID: 1272220964}
   _swayAmount: 0.2
   _swaySpeed: 2
