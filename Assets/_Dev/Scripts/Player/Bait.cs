@@ -8,6 +8,7 @@ public class Bait : MonoBehaviour
     
     public bool HasFish { get; private set; }
     public Vector3 BaitStart;
+    public Rod Rod;
     [SerializeField] Fish _fish;
     public void GetFish(Fish fish)
     {

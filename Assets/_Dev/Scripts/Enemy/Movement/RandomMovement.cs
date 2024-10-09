@@ -25,7 +25,7 @@ public class RandomMovement : MonoBehaviour
         var randomPosition = AreaManager.RandomPosition();
         var distance = Vector2.Distance(randomPosition, transform.position);
         GetComponent<RotationDirection>().SetupTargetPosition(randomPosition);
-        transform.DOMove(AreaManager.RandomPosition(), GameUtils.CalculateDistanceSpeedToTime(_speed, distance)).OnComplete(RandomMove);
+        transform.DOMove(randomPosition, GameUtils.CalculateDistanceSpeedToTime(_speed, distance)).OnComplete(RandomMove);
     }
     // Update is called once per frame
     void Update()

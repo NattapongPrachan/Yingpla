@@ -24,9 +24,8 @@ public class Rod : MonoBehaviour
     public RodState RodState;
     public bool IsPulling;
     [Header("Config")]
-    [SerializeField] float _castingSpeed = 2f;
-    [SerializeField] float _dragSpeed = 2f;
-    [SerializeField] float _reachToRodDistance = 1f;
+    public RodConfig Config;
+    public float DiffSpeed;
     private void Start()
     {
         _playerTouchScreen.OnScreenPoint.Subscribe(screenPoint =>
@@ -52,6 +51,7 @@ public class Rod : MonoBehaviour
         end.z = 0f;
         RodState = RodState.Casting;
         _baitObject = Instantiate(_baitPrefab, start, Quaternion.identity);
+        _baitObject.Rod = this;
         _baitObject.BaitStart = start;
         _baitObject.ObserveEveryValueChanged(_ => _.HasFish).Subscribe(hasFish =>
         {
@@ -60,7 +60,9 @@ public class Rod : MonoBehaviour
                 RodState = RodState.Staying;
             }
         }).AddTo(this);
-        _baitObject.transform.DOMove(end, _castingSpeed).OnComplete(() => {
+        var distance = Vector2.Distance(end, start);
+        var castingTime = GameUtils.CalculateDistanceSpeedToTime(Config.CastingSpeed,distance );
+        _baitObject.transform.DOMove(end, castingTime).OnComplete(() => {
             RodState = RodState.Staying;
         });
         _rodUI.SetupBaitObject(_baitObject.transform, start);
@@ -73,13 +75,13 @@ public class Rod : MonoBehaviour
             var direction = start - _baitObject.transform.position;
             direction.z = 0;
             var distance = Vector3.Distance(_baitObject.transform.position, start);
-            if (distance <= _reachToRodDistance)
+            if (distance <= Config.ReachToDistance)
             {
                 DestroyBait();
             }
             else
             {
-                _baitObject.transform.position += direction.normalized * _dragSpeed * Time.deltaTime;
+                _baitObject.transform.position += direction.normalized * Config.DragSpeed * Time.deltaTime;
             }
         }
         

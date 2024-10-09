@@ -16,7 +16,7 @@ public enum BaitState
 }
 public enum FishState
 {
-    Moving,Interesting,Flee
+    Moving,Interesting,Flee,Pulling
 }
 public struct TagKeys
 {

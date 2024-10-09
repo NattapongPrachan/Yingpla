@@ -12,11 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e1ec5b68912df34d889fc3792daa72d, type: 3}
   m_Name: BaseFishStatsData
   m_EditorClassIdentifier: 
-  Stamina: 10
-  TimeToKnockDown: 0
-  Speed: 1.5
-  RegenRate: 0
-  IsCatch: 0
-  IsStun: 0
-  Power: 1
-  State: 2
+  FishStatsData:
+    State: 2
+    Stamina: 100
+    ConsumeStamina: 0.1
+    TimeToKnockDown: 0
+    Speed: 2
+    Sprint: 8
+    RegenRate: 1
+    IsCatch: 0
+    IsStun: 0
+    Power: 1
+    PercentPulling: 0.5
+    IsPulling: 0
+    PullCountdown: 0
+    PullCountdownMin: 0
+    PullCountdownMax: 0

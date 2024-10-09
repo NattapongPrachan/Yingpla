@@ -319,6 +319,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1021112570}
     m_Modifications:
+    - target: {fileID: 466101826474665788, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 466101826474665788, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: TimeSecound
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 466101826474665788, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: _randomInAngle
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547646585774012295, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: StatsData.Stamina
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5198767112246353989, guid: 926747c24792400458756afa6dae4f51, type: 3}
       propertyPath: m_Name
       value: Fish
@@ -362,6 +378,22 @@ PrefabInstance:
     - target: {fileID: 7594020362593527633, guid: 926747c24792400458756afa6dae4f51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204291906633692109, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204291906633692109, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8582949974420073488, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: _rotTransform
+      value: 
+      objectReference: {fileID: 52530676}
+    - target: {fileID: 9083024580057874628, guid: 926747c24792400458756afa6dae4f51, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7846,9 +7878,8 @@ MonoBehaviour:
   _baitObject: {fileID: 0}
   RodState: 0
   IsPulling: 0
-  _castingSpeed: 2
-  _dragSpeed: 2
-  _reachToRodDistance: 1
+  Config: {fileID: 11400000, guid: ac31a193d4e2b8441a4f12b0b46c61c9, type: 2}
+  DiffSpeed: 0
 --- !u!114 &9129728993479941634
 MonoBehaviour:
   m_ObjectHideFlags: 0
