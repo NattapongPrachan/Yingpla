@@ -8,6 +8,7 @@ public class PlayerTouchScreen : MonoBehaviour
     public Subject<Vector2> OnScreenPoint = new Subject<Vector2>();
     public static Subject<Vector2> OnSelectWorldPoint = new Subject<Vector2>();
     public Subject<bool> OnPressed = new Subject<bool>();
+    public Subject<bool> OnShock = new Subject<bool>();
     private void Start()
     {
         Mouse.current.leftButton.ObserveEveryValueChanged(_ => _.isPressed).Subscribe(isPressed => { 
@@ -23,6 +24,10 @@ public class PlayerTouchScreen : MonoBehaviour
             var worldPoint = Camera.main.ScreenToWorldPoint(point);
             OnScreenPoint.OnNext(point);
             OnSelectWorldPoint.OnNext(worldPoint);
+        }
+        if(Mouse.current.rightButton.wasPressedThisFrame)
+        {
+            OnShock.OnNext(true);
         }
         if(Mouse.current.leftButton.isPressed)
         {

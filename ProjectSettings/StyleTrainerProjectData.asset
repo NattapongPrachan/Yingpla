@@ -16,26 +16,65 @@ MonoBehaviour:
     rid: 9017135752924364800
   m_DefaultStyleData:
     rid: 9017135752924364801
-  m_DefaultStyleVersion: 0
-  m_DefaultStyles: []
+  m_DefaultStyleVersion: 2023111600
+  m_DefaultStyles:
+  - rid: 9017135798801661952
   m_AssetPath: 
   m_PreviousProjectIDs: []
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 9017135752924364800
       type: {class: StyleTrainerData, ns: Unity.Muse.StyleTrainer, asm: Unity.Muse.StyleTrainer}
       data:
         m_Guid: 48604b8d-5b93-4595-80e4-021a79961509
-        m_State: 3
+        m_State: 2
         m_Disposing: 0
         m_Styles: []
         m_Version: 202231001
     - rid: 9017135752924364801
       type: {class: StyleTrainerData, ns: Unity.Muse.StyleTrainer, asm: Unity.Muse.StyleTrainer}
       data:
-        m_Guid: 83947d65-bb9e-4ada-bfb4-79809f41fc5c
-        m_State: 3
+        m_Guid: 00000000-0000-0000-0000-000000000000
+        m_State: 4
         m_Disposing: 0
         m_Styles: []
         m_Version: 202231001
+    - rid: 9017135798801661952
+      type: {class: StyleData, ns: Unity.Muse.StyleTrainer, asm: Unity.Muse.StyleTrainer}
+      data:
+        m_Guid: 00000000-0000-0000-0000-000000000000
+        m_State: 1
+        m_Disposing: 0
+        m_IsFallback: 1
+        m_Thumbnail:
+          rid: -2
+        m_Visible: 0
+        selectedCheckPointGUID: 00000000-0000-0000-0000-000000000000
+        m_FavoriteCheckPointGUID: active
+        parentID: 00000000-0000-0000-0000-000000000000
+        m_ProjectID: 00000000-0000-0000-0000-000000000000
+        m_TrainingSteps: 2000
+        m_CheckPoints:
+        - m_Guid: 00000000-0000-0000-0000-000000000000
+          m_State: 1
+          m_Disposing: 0
+          m_ProjectID: 00000000-0000-0000-0000-000000000000
+          m_Name: Default
+          m_Description: Default style.
+          parent_id: 00000000-0000-0000-0000-000000000000
+          m_TrainingSetData:
+            m_Guid: 
+            m_State: 0
+            m_Disposing: 0
+            m_TrainingSet: []
+            m_ProjectID: 
+          m_ValidationImagesData: []
+          m_FavoriteSampleOutputDataGuid: 
+          m_TrainingSteps: 2000
+        m_SampleOutputPrompts: []
+        m_TrainingSetData: []
+        m_Name: Default
+        m_Description: Default style.

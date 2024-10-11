@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BaseRodConfig
   m_EditorClassIdentifier: 
   CastingSpeed: 5
-  DragSpeed: 10
-  PullPower: 3.9
+  DragSpeed: 2
+  PullPower: 1
   ReachToDistance: 1

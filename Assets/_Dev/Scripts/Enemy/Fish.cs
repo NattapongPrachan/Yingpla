@@ -19,8 +19,9 @@ public class Fish : MonoBehaviour
     public FishStatsData StatsData = new FishStatsData();
     [ShowInInspector]public float SpeedTotal { get; private set; }
     [ShowInInspector] public float DiffSpeed { get; private set; }
-
-    [ShowInInspector] float percentPulling;
+    [ShowInInspector] public float DiffPower { get; private set; }
+    [ShowInInspector] public float DiffPercent { get; private set; }
+    [ShowInInspector] float _randomPercentPulling;
 
     //Observable
     IDisposable TimeCountdownPullingObservable;
@@ -31,20 +32,44 @@ public class Fish : MonoBehaviour
             
             RefreshFishStats();
         }).AddTo(this);
+        AddListener();
+    }
+    void AddListener()
+    {
+        this.StatsData.ObserveEveryValueChanged(_ =>_.Stamina).Where(stamina => stamina <= 0).Subscribe(stamina => {
+            
+            TimeCountdownPullingObservable?.Dispose();
+            StatsData.IsPulling = false;
+            Debug.Log("Empty Stamina " + StatsData.IsPulling);
+        }).AddTo(this);
+        Observable.Interval(TimeSpan.FromSeconds(StatsData.RoundPullingDuration)).Subscribe(_ =>
+        {
+            CalculatePulling();
+        }).AddTo(this);
     }
     void RefreshFishStats()
     {
         StatsData.Stamina = FishStatsConfig.FishStatsData.Stamina;
         StatsData.ConsumeStamina = FishStatsConfig.FishStatsData.ConsumeStamina;
+        StatsData.RegenStamina = FishStatsConfig.FishStatsData.RegenStamina;
+        StatsData.IsRandomStamina = FishStatsConfig.FishStatsData.IsRandomStamina;
+        StatsData.MinRegenStamina = FishStatsConfig.FishStatsData.MinRegenStamina;
+        StatsData.MaxRegenStamina = FishStatsConfig.FishStatsData.MaxRegenStamina;
+       
+
         StatsData.Power = FishStatsConfig.FishStatsData.Power;
+        StatsData.CurrentPower = FishStatsConfig.FishStatsData.CurrentPower;
+
         StatsData.TimeToKnockDown = FishStatsConfig.FishStatsData.TimeToKnockDown;
         StatsData.RegenRate = FishStatsConfig.FishStatsData.RegenRate;
         StatsData.State = FishStatsConfig.FishStatsData.State;
         StatsData.Speed = FishStatsConfig.FishStatsData.Speed;
         StatsData.Sprint = FishStatsConfig.FishStatsData.Sprint;
 
+        StatsData.RoundPullingDuration = FishStatsConfig.FishStatsData.RoundPullingDuration;
         StatsData.PercentPulling = FishStatsConfig.FishStatsData.PercentPulling;
         StatsData.IsPulling = FishStatsConfig.FishStatsData.IsPulling;
+        StatsData.IgnorePullingWhenStaminaLower = FishStatsConfig.FishStatsData.IgnorePullingWhenStaminaLower;
 
         StatsData.PullCountdown = FishStatsConfig.FishStatsData.PullCountdown;
         StatsData.PullCountdownMin = FishStatsConfig.FishStatsData.PullCountdownMin;
@@ -56,34 +81,51 @@ public class Fish : MonoBehaviour
     }
     private void Update()
     {
-        CalculatePulling();
+        
         CalculatePower();
         if (_bait != null)
         {   
-            if(StatsData.State == FishState.Flee)
+            switch(StatsData.State)
             {
-
-                //DiffSpeed = SpeedTotal-_bait.Rod.Config.PullPower;
-                //_bait.Rod.DiffSpeed = DiffSpeed;
-                //if(SpeedTotal < _bait.Rod.Config.PullPower)
-                //{
-                //    transform.position = _bait.transform.position;
-                //}
-                //else
-                //{
-                //    _bait.transform.position = transform.position;
-                //}
-                transform.position = _bait.transform.position;
-                CalculateStamina();
+                case FishState.Flee:
+                    Fighting();
+                    break;
+                case FishState.Stunning:
+                    break;
             }
         }
+    }
+    void Fighting()
+    {
+        DiffPower = StatsData.CurrentPower - _bait.Rod.Config.PullPower;
+        DiffPercent = StatsData.CurrentPower / StatsData.Power;
+        DiffSpeed = StatsData.Sprint * DiffPercent;
+        if (StatsData.IsPulling)
+            _bait.Rod.DiffSpeed = _bait.Rod.Config.DragSpeed * (1 - DiffPercent);
+        else
+            _bait.Rod.DiffSpeed = _bait.Rod.Config.DragSpeed;
+
+        if (DiffPower < 0 || !StatsData.IsPulling || StatsData.State == FishState.Stuned)
+        {
+            transform.position = _bait.transform.position;
+        }
+        else
+        {
+            if (StatsData.IsPulling)
+                _bait.transform.position = transform.position;
+        }
+        // transform.position = _bait.transform.position;
+        //_bait.transform.position = transform.position;
+        CalculateStamina();
     }
     void CalculatePulling()
     {
         if (StatsData.IsPulling) return;
-        percentPulling = UnityEngine.Random.Range(0, 1f);
-        if(percentPulling > StatsData.PercentPulling)
+        if (StatsData.Stamina <= StatsData.IgnorePullingWhenStaminaLower) return;
+        _randomPercentPulling = UnityEngine.Random.Range(0, 1f);
+        if(_randomPercentPulling > StatsData.PercentPulling)
         {
+            
             StatsData.IsPulling = true;
             CreatePullingCountdown();
         }
@@ -99,17 +141,36 @@ public class Fish : MonoBehaviour
     }
     void CalculatePower()
     {
-
+        StatsData.CurrentPower = StatsData.Power * StatsData.Stamina * 0.01f;
     }
     private void CalculateStamina()
     {
-        SpeedTotal = StatsData.Speed + (StatsData.Sprint * StatsData.Stamina);
-        StatsData.Stamina -= StatsData.ConsumeStamina;
-        if (StatsData.Stamina <= 0) StatsData.Stamina = 0;
+        if(StatsData.IsPulling)
+        {
+            SpeedTotal = StatsData.Speed + (StatsData.Sprint * StatsData.Stamina);
+            StatsData.Stamina -= StatsData.ConsumeStamina;
+            if (StatsData.Stamina <= 0) StatsData.Stamina = 0;
+        }
+        else
+        {
+            if(StatsData.IsRandomStamina)
+            {
+                StatsData.RegenStamina = UnityEngine.Random.Range(StatsData.MinRegenStamina,StatsData.MaxRegenStamina);
+            }
+            StatsData.Stamina += StatsData.RegenStamina;
+            if (StatsData.Stamina >= 100) StatsData.Stamina = 100;
+        }
+        
+    }
+    public void TakeDamage(float damage)
+    {
+        StatsData.Stamina -= damage;
+        TextPopup.Create();
     }
     public void ReleaseBait()
     {
-        GetComponent<RandomMovement>().Resume();
+        GetComponent<RandomMovement>().enabled = true;
+        GetComponent<FleeMovement>().enabled = false;
         RefreshFishStats();
 
     }

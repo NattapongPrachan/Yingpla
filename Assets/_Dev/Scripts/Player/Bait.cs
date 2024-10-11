@@ -16,6 +16,10 @@ public class Bait : MonoBehaviour
         _fish = fish;
         transform.DOKill();
     }
+    public void Shock(float damage)
+    {
+        _fish.TakeDamage(damage);
+    }
     public void Dispose()
     {
         _fish?.ReleaseBait();

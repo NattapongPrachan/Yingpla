@@ -2,15 +2,16 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using Unity.Entities;
 using UnityEngine;
 [DefaultExecutionOrder(88)]
 public class RandomMovement : MonoBehaviour
 {
     [SerializeField] float _speed;
-    void Start()
+    void Awake()
     {
         transform.position = AreaManager.GetOuterBounds();
-        RandomMove();
+       // RandomMove();
         //AddListener();
     }
     void AddListener()
@@ -32,12 +33,13 @@ public class RandomMovement : MonoBehaviour
     {
        // transform.position = AreaManager.GetOuterBounds();
     }
-    public void Resume()
+    private void OnEnable()
     {
         RandomMove();
     }
     public void Dispose()
     {
         transform.DOKill();
+        this.enabled = false;
     }
 }

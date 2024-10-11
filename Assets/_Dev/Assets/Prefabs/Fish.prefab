@@ -249,6 +249,11 @@ MonoBehaviour:
     IsCatch: 0
     IsStun: 0
     Power: 1
+    PercentPulling: 0.5
+    IsPulling: 0
+    PullCountdown: 0
+    PullCountdownMin: 0
+    PullCountdownMax: 0
 --- !u!114 &466101826474665788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotTransform: {fileID: 0}
   _spriteRenderer: {fileID: 8204291906633692109}
+  _rotateDuration: 0.25
 --- !u!61 &1812171825638043603
 BoxCollider2D:
   m_ObjectHideFlags: 0

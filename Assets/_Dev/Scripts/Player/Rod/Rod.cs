@@ -28,6 +28,7 @@ public class Rod : MonoBehaviour
     public float DiffSpeed;
     private void Start()
     {
+        DiffSpeed = Config.DragSpeed;
         _playerTouchScreen.OnScreenPoint.Subscribe(screenPoint =>
         {
             switch(RodState)
@@ -39,6 +40,10 @@ public class Rod : MonoBehaviour
         }).AddTo(this);
         _playerTouchScreen.OnPressed.Subscribe(isPressed => {
             IsPulling = isPressed;
+        }).AddTo(this);
+        _playerTouchScreen.OnShock.Subscribe(isShock =>
+        {
+            _baitObject?.Shock(50);
         }).AddTo(this);
     }
     public void CastingBait(Vector2 screenPoint)
@@ -81,7 +86,7 @@ public class Rod : MonoBehaviour
             }
             else
             {
-                _baitObject.transform.position += direction.normalized * Config.DragSpeed * Time.deltaTime;
+                _baitObject.transform.position += direction.normalized * DiffSpeed * Time.deltaTime;
             }
         }
         

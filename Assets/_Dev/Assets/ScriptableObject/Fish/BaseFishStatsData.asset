@@ -14,17 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FishStatsData:
     State: 2
+    Power: 2
+    CurrentPower: 0
     Stamina: 100
-    ConsumeStamina: 0.1
+    ConsumeStamina: 0.2
+    RegenStamina: 1
+    IsRandomStamina: 1
+    MinRegenStamina: 0.5
+    MaxRegenStamina: 1
     TimeToKnockDown: 0
     Speed: 2
-    Sprint: 8
+    Sprint: 2
     RegenRate: 1
     IsCatch: 0
     IsStun: 0
-    Power: 1
+    RoundPullingDuration: 0.5
     PercentPulling: 0.5
+    IgnorePullingWhenStaminaLower: 20
     IsPulling: 0
     PullCountdown: 0
-    PullCountdownMin: 0
-    PullCountdownMax: 0
+    PullCountdownMin: 1
+    PullCountdownMax: 2
