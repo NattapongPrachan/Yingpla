@@ -7,9 +7,13 @@ using DG.Tweening;
 using static UnityEngine.Rendering.HableCurve;
 using System.Net;
 using UnityEngine.Animations.Rigging;
+using System;
 public class RodUI : MonoBehaviour
 {
+    [Header("Rod Image")]
+    [SerializeField] Image _rodImage;
     [Header("LineBaitAnimation")]
+    [SerializeField] Transform _spawnPoint;
     [SerializeField] LineRenderer _lineRenderer;
     [SerializeField] float _swayAmount = 0.2f;
     [SerializeField] float _swaySpeed = 2f; // ความเร็วในการย้วย
@@ -39,7 +43,18 @@ public class RodUI : MonoBehaviour
     void Update()
     {
         UpdateLine();
+        UpdateRodUIRotation();
     }
+
+    private void UpdateRodUIRotation()
+    {
+        if (_baitTransform == null) return;
+        var rodToWorldPoint = Camera.main.ScreenToWorldPoint(_rodImage.transform.position);
+        var direction = _baitTransform.position - rodToWorldPoint;
+        var angle = GameUtils.CalculateAngleFromDirection(direction);
+        _rodImage.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
     void UpdateLine()
     {
         if (_baitTransform == null) return;
@@ -47,7 +62,8 @@ public class RodUI : MonoBehaviour
         for (int i = 0; i <= _lineSegment; i++)
         {
             float t = (float)i / _lineSegment;
-            Vector3 point = Vector3.Lerp(_baitStartPosition, _baitTransform.position, t);
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(_rodImage.rectTransform, _spawnPoint.transform.position, Camera.main, out Vector3 spawnPointToWorldPoint);
+            Vector3 point = Vector3.Lerp(spawnPointToWorldPoint, _baitTransform.position, t);
             if (i > 0)
                 point.y += Mathf.Sin((Time.time + t) * _swaySpeed) * _swayAmount;
             positions[i] = point;

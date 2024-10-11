@@ -14,3 +14,11 @@ public enum BaitState
 {
 
 }
+public enum FishState
+{
+    Moving,Interesting,Flee,Pulling,Stunning,Stuned
+}
+public struct TagKeys
+{
+    public static readonly string Bait = "Bait";
+}

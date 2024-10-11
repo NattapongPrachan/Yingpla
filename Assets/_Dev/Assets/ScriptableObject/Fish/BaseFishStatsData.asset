@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e1ec5b68912df34d889fc3792daa72d, type: 3}
+  m_Name: BaseFishStatsData
+  m_EditorClassIdentifier: 
+  FishStatsData:
+    State: 2
+    Power: 2
+    CurrentPower: 0
+    Stamina: 100
+    ConsumeStamina: 0.2
+    RegenStamina: 1
+    IsRandomStamina: 1
+    MinRegenStamina: 0.5
+    MaxRegenStamina: 1
+    TimeToKnockDown: 0
+    Speed: 2
+    Sprint: 2
+    RegenRate: 1
+    IsCatch: 0
+    IsStun: 0
+    RoundPullingDuration: 0.5
+    PercentPulling: 0.5
+    IgnorePullingWhenStaminaLower: 20
+    IsPulling: 0
+    PullCountdown: 0
+    PullCountdownMin: 1
+    PullCountdownMax: 2
