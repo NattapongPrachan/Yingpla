@@ -144,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1335687392979803423}
   - component: {fileID: 3905391745188053909}
+  - component: {fileID: 3809570090059491701}
   m_Layer: 5
   m_Name: DamagePopup
   m_TagString: Untagged
@@ -179,3 +180,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5094604400788720091}
   m_CullTransparentMesh: 1
+--- !u!114 &3809570090059491701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5094604400788720091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30c4b47392ad1e4081624e8cbfbd4cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsMoving: 1
+  _moveRectTransform: {x: 0, y: 25}
+  _duration: 0.5
+  ease: 19
+  _destroyDuration: 0.1
+  _messageTxt: {fileID: 8526288460138563089}

@@ -7,11 +7,11 @@ public class GameOrthoGraphicSize : MonoInstance<GameOrthoGraphicSize>
 {
     [SerializeField] CinemachineVirtualCamera _virtualCamera;
     [SerializeField] float _size;
-    public float screenHeight = 1080f; // ความสูงที่คุณต้องการ
+    public Vector2 BaseScreenSize = new Vector2(1920, 1080);
     public float pixelsPerUnit = 100f; // ค่า Pixels Per Unit ของ sprite
     private void Start()
     {
-        _size = Screen.height / (2 * pixelsPerUnit);
+        _size = BaseScreenSize.y / (2 * pixelsPerUnit);
         _virtualCamera.m_Lens.OrthographicSize = _size;
     }
 }

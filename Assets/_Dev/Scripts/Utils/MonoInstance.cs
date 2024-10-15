@@ -7,6 +7,7 @@
 /// 
 /// As a note, this is made as MonoBehaviour because we need Coroutines.
 /// </summary>
+[DefaultExecutionOrder(1)]
 public class MonoInstance<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;

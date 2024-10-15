@@ -16,9 +16,10 @@ public class Bait : MonoBehaviour
         _fish = fish;
         transform.DOKill();
     }
-    public void Shock(float damage)
+    public void Shock(int damage)
     {
-        _fish.TakeDamage(damage);
+        
+        _fish.TakeDamage(Random.Range(0,damage));
     }
     public void Dispose()
     {

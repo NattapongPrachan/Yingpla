@@ -11,7 +11,7 @@ public class RandomMovement : MonoBehaviour
     void Awake()
     {
         transform.position = AreaManager.GetOuterBounds();
-       // RandomMove();
+        //RandomMove();
         //AddListener();
     }
     void AddListener()

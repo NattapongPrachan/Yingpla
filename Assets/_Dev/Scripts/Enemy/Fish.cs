@@ -5,6 +5,8 @@ using UniRx;
 using UniRx.Triggers;
 using Sirenix.OdinInspector;
 using System;
+using System.Resources;
+using Unity.VisualScripting;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Fish : MonoBehaviour
 {
@@ -23,8 +25,12 @@ public class Fish : MonoBehaviour
     [ShowInInspector] public float DiffPercent { get; private set; }
     [ShowInInspector] float _randomPercentPulling;
 
+    Vector2 _stopPosition;
+
     //Observable
     IDisposable TimeCountdownPullingObservable;
+
+    IDisposable TimeToStunningObservable;
     private void Start()
     {
         this.ObserveEveryValueChanged(_ => _.FishStatsConfig).Subscribe(fishStatsConfig =>
@@ -37,10 +43,8 @@ public class Fish : MonoBehaviour
     void AddListener()
     {
         this.StatsData.ObserveEveryValueChanged(_ =>_.Stamina).Where(stamina => stamina <= 0).Subscribe(stamina => {
-            
             TimeCountdownPullingObservable?.Dispose();
             StatsData.IsPulling = false;
-            Debug.Log("Empty Stamina " + StatsData.IsPulling);
         }).AddTo(this);
         Observable.Interval(TimeSpan.FromSeconds(StatsData.RoundPullingDuration)).Subscribe(_ =>
         {
@@ -91,9 +95,15 @@ public class Fish : MonoBehaviour
                     Fighting();
                     break;
                 case FishState.Stunning:
+                    Stunning();
                     break;
             }
         }
+    }
+    void Stunning()
+    {
+        DiffSpeed = 0;
+        _bait.Rod.DiffSpeed = 0;
     }
     void Fighting()
     {
@@ -162,10 +172,33 @@ public class Fish : MonoBehaviour
         }
         
     }
-    public void TakeDamage(float damage)
+    public void Shock()
     {
+        TimeToStunningObservable?.Dispose();
+        StatsData.IsPulling = false;
+        StatsData.State = FishState.Stunning;
+        _stopPosition = transform.position;
+        TimeToStunningObservable = Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ =>
+        {
+            StatsData.State = FishState.Flee;
+            StatsData.IsPulling = true;
+
+        }).AddTo(this);
+       
+        
+    }
+    public void TakeDamage(int damage)
+    {
+        if (StatsData.State == FishState.Stunning) return;
+        Shock();
         StatsData.Stamina -= damage;
-        TextPopup.Create();
+        StartCoroutine(ResourcesLoaderManager.Instance.GetObject<TextPopup>(PathKey.DamagePopup, textPopup => {
+            
+            var popup = Instantiate(textPopup,GameObject.Find("Panel").transform);
+            var text = popup.GetComponent<TextPopup>();
+            text.SetRectPosition(transform.position);
+            text.SetText(damage.ToString());
+        }));
     }
     public void ReleaseBait()
     {

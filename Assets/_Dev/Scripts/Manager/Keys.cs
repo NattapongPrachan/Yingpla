@@ -22,3 +22,11 @@ public struct TagKeys
 {
     public static readonly string Bait = "Bait";
 }
+public struct PrefabKey
+{
+    
+}
+public struct PathKey
+{
+    public static readonly string DamagePopup = "Popup/DamagePopup";
+}
