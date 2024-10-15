@@ -124,8 +124,6 @@ public class Fish : MonoBehaviour
             if (StatsData.IsPulling)
                 _bait.transform.position = transform.position;
         }
-        // transform.position = _bait.transform.position;
-        //_bait.transform.position = transform.position;
         CalculateStamina();
     }
     void CalculatePulling()
@@ -225,98 +223,3 @@ public class Fish : MonoBehaviour
        
     }
 }
-
-
-/*
-
-public class FishFight : MonoBehaviour
-{
-    public float fishStrength = 8f;       // ความแข็งแรงเริ่มต้นของปลา
-    public float maxFishStrength = 10f;   // ความแข็งแรงสูงสุดของปลา
-    public float fishFatigue = 0.1f;      // อัตราความเหนื่อยล้าของปลา
-    public float fatigueIncreaseRate = 0.02f; // อัตราการเพิ่มความเหนื่อยของปลา
-    public float playerPullForce = 6f;    // แรงดึงของผู้เล่น
-    public float tension = 0f;            // แรงตึงในสายเบ็ด
-    public float maxTension = 10f;        // แรงตึงสูงสุดก่อนสายขาด
-    public float pullDifferenceThreshold = 0.5f; // ขีดจำกัดความต่างในการดึง (จะส่งผลเมื่อใด)
-
-    private bool isFishPulling = false;   // ตรวจสอบว่าปลากำลังดึงอยู่หรือไม่
-    private float fishPullTimer = 0f;     // ตัวจับเวลาสำหรับการดึงของปลา
-    private float fishPullCooldown = 2f;  // ช่วงเวลาระหว่างการดึงของปลา
-
-    void Update()
-    {
-        if (tension < maxTension)
-        {
-            HandleFishPulling();
-            HandlePlayerPulling();
-        }
-        else
-        {
-            Debug.Log("สายขาด! ปลาหนีไปแล้ว!");
-        }
-
-        // ลดแรงตึงลงเมื่อไม่มีการดึง
-        tension = Mathf.Max(0, tension - 0.5f * Time.deltaTime);
-    }
-
-    // การดึงของปลา
-    void HandleFishPulling()
-    {
-        fishPullTimer += Time.deltaTime;
-
-        if (fishPullTimer >= fishPullCooldown)
-        {
-            isFishPulling = Random.value > 0.5f; // โอกาส 50% ที่ปลาจะดึง
-            fishPullTimer = 0f;
-
-            if (isFishPulling)
-            {
-                float fishEffectiveStrength = fishStrength - (fishFatigue * fatigueIncreaseRate); // ลดความแข็งแรงเนื่องจากความเหนื่อยล้า
-                Debug.Log("ปลากำลังดึง! แรงดึงปลา: " + fishEffectiveStrength);
-
-                // คำนวณความต่างของแรงดึงระหว่างผู้เล่นและปลา
-                float pullDifference = playerPullForce - fishEffectiveStrength;
-
-                // ถ้าผู้เล่นดึงแรงกว่า
-                if (pullDifference > pullDifferenceThreshold)
-                {
-                    Debug.Log("ผู้เล่นดึงปลามาได้!");
-                    tension += Mathf.Abs(pullDifference) * Time.deltaTime; // แรงตึงเพิ่มขึ้นตามความต่าง
-                }
-                // ถ้าปลาดึงแรงกว่า
-                else if (pullDifference < -pullDifferenceThreshold)
-                {
-                    Debug.Log("ปลาว่ายหนีไป!");
-                    tension -= Mathf.Abs(pullDifference) * Time.deltaTime; // แรงตึงลดลงถ้าปลาชนะการดึง
-                }
-            }
-
-            // เพิ่มความเหนื่อยล้าของปลาเมื่อเวลาผ่านไป
-            fishFatigue += fatigueIncreaseRate;
-        }
-    }
-
-    // การดึงของผู้เล่น
-    void HandlePlayerPulling()
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            float fishEffectiveStrength = fishStrength - (fishFatigue * fatigueIncreaseRate); // ความแข็งแรงของปลาหลังจากคิดความเหนื่อยล้า
-            float pullDifference = playerPullForce - fishEffectiveStrength;
-
-            // ถ้าผู้เล่นดึงแรงกว่าปลา
-            if (pullDifference > pullDifferenceThreshold)
-            {
-                Debug.Log("ผู้เล่นดึงปลาเข้ามาได้! แรงตึงเพิ่มขึ้น");
-                tension += Mathf.Abs(pullDifference) * Time.deltaTime; // แรงตึงเพิ่มขึ้นตามแรงดึง
-            }
-            else
-            {
-                Debug.Log("ผู้เล่นพยายามดึง แต่ปลายังว่ายหนีไป!");
-            }
-        }
-    }
-}
-
-*/

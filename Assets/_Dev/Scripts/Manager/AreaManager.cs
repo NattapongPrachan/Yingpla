@@ -46,8 +46,6 @@ public class AreaManager : MonoInstance<AreaManager>
                 randomPosition = new Vector2(Random.Range(Instance.AreaBounds.min.x, Instance.AreaBounds.max.x), Instance.AreaBounds.min.y - Instance.SpawnOffsset.y);
                 break;
         }
-        Debug.Log("randomPosition " + randomPosition);
-
         return GetPosition(randomPosition);
     }
 }

@@ -3337,7 +3337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScreenSize: {x: 1920, y: 1080, z: 0}
-  SpawnOffsset: 100
+  SpawnOffsset: {x: 300, y: 100}
   AreaBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
