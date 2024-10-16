@@ -44,6 +44,7 @@ public class FleeMovement : MonoBehaviour
     }
     public void Dispose()
     {
-        _timeRandomDirectionObservable.Dispose();
+        _timeRandomDirectionObservable?.Dispose();
+        this.enabled = false;
     }
 }

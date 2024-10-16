@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BaseFishStatsData
   m_EditorClassIdentifier: 
   FishStatsData:
-    State: 2
+    State: 0
     Power: 2
     CurrentPower: 0
     Stamina: 100
@@ -35,3 +35,9 @@ MonoBehaviour:
     PullCountdown: 0
     PullCountdownMin: 1
     PullCountdownMax: 2
+    RegenStun: 0
+    DistanceToWandering: 2
+    TimeWanderingMin: 0.1
+    TimeWanderingMax: 2
+    RateToInteresting: 0.5
+    RateToEatBait: 0.9

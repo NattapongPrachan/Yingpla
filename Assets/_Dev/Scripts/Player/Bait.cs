@@ -9,6 +9,7 @@ public class Bait : MonoBehaviour
     public bool HasFish { get; private set; }
     public Vector3 BaitStart;
     public Rod Rod;
+    public Collider2D AuraCollider;
     [SerializeField] Fish _fish;
     public void GetFish(Fish fish)
     {
@@ -19,7 +20,11 @@ public class Bait : MonoBehaviour
     public void Shock(int damage)
     {
         
-        _fish.TakeDamage(Random.Range(0,damage));
+        _fish?.TakeDamage(Random.Range(0,damage));
+    }
+    public void OpenAuraCollider()
+    {
+        AuraCollider.enabled = true;
     }
     public void Dispose()
     {

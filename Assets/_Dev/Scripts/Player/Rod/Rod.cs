@@ -69,6 +69,7 @@ public class Rod : MonoBehaviour
         var castingTime = GameUtils.CalculateDistanceSpeedToTime(Config.CastingSpeed,distance );
         _baitObject.transform.DOMove(end, castingTime).OnComplete(() => {
             RodState = RodState.Staying;
+            _baitObject.OpenAuraCollider();
         });
         _rodUI.SetupBaitObject(_baitObject.transform, start);
     }

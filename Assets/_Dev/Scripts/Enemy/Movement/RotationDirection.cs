@@ -16,4 +16,5 @@ public class RotationDirection : MonoBehaviour
         _rotTransform.transform.DORotate(rot.eulerAngles, _rotateDuration);
 
     }
+   
 }

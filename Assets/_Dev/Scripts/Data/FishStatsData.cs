@@ -32,4 +32,11 @@ public class FishStatsData
     public float PullCountdownMax;
     [Header("Stun")]
     public float RegenStun;
+    [Header("Wandering To Target")]
+    public float DistanceToWandering;
+    public float TimeWanderingMin;
+    public float TimeWanderingMax;
+    public float RateToInteresting;
+    public float RateToEatBait;
+    
 }

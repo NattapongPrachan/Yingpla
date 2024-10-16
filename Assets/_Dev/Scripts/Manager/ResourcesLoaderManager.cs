@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -44,7 +44,8 @@ public class ResourcesLoaderManager : MonoSingleton<ResourcesLoaderManager>
             var objectLoaded = Create<T>(resourcePath);
         }
         var targetObject = ResourcesLoaded[resourcePath] as T;
-        Debug.Log("target " + targetObject);
+	    Debug.Log("target " + targetObject);
+	    
         return targetObject;
     }
     public Object Create<T>(string resourcePath) where T : Object

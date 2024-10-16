@@ -16,11 +16,12 @@ public enum BaitState
 }
 public enum FishState
 {
-    Moving,Interesting,Flee,Pulling,Stunning,Stuned
+    Moving,Wandering,Interesting,Eating,Flee,Pulling,Stunning,Stuned
 }
-public struct TagKeys
+public struct TagKey
 {
     public static readonly string Bait = "Bait";
+    public static readonly string BaitAura = "BaitAura";
 }
 public struct PrefabKey
 {

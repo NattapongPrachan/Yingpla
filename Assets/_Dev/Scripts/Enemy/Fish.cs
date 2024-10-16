@@ -10,9 +10,14 @@ using Unity.VisualScripting;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Fish : MonoBehaviour
 {
+
+    [Header("MovingComponent")]
+    [SerializeField]ToTargetMovement _toTargetMovement;
+    [SerializeField]RandomMovement _randomMovement;
+    [SerializeField]FleeMovement _fleeMovement;
     BoxCollider2D _boxCollider;
     [SerializeField]Transform _mouseTransform;
-    [SerializeField] Bait _bait;
+    public Bait _bait { get; private set; }
     
     public float Rand;
     public float Power;
@@ -24,6 +29,10 @@ public class Fish : MonoBehaviour
     [ShowInInspector] public float DiffPower { get; private set; }
     [ShowInInspector] public float DiffPercent { get; private set; }
     [ShowInInspector] float _randomPercentPulling;
+
+    [Header("Debug")]
+    [SerializeField] bool _isDebug;
+    [SerializeField] FishDebugUI _fishDebugUIPrefab;
 
     Vector2 _stopPosition;
 
@@ -39,6 +48,11 @@ public class Fish : MonoBehaviour
             RefreshFishStats();
         }).AddTo(this);
         AddListener();
+        if(_isDebug)
+        {
+            var fishDebugUI = Instantiate(_fishDebugUIPrefab);
+            fishDebugUI.SetFish(this);
+        }
     }
     void AddListener()
     {
@@ -49,6 +63,10 @@ public class Fish : MonoBehaviour
         Observable.Interval(TimeSpan.FromSeconds(StatsData.RoundPullingDuration)).Subscribe(_ =>
         {
             CalculatePulling();
+        }).AddTo(this);
+        _toTargetMovement.OnBaitHasGone.Subscribe(_ =>
+        {
+            EnableRandomMovement();
         }).AddTo(this);
     }
     void RefreshFishStats()
@@ -78,6 +96,12 @@ public class Fish : MonoBehaviour
         StatsData.PullCountdown = FishStatsConfig.FishStatsData.PullCountdown;
         StatsData.PullCountdownMin = FishStatsConfig.FishStatsData.PullCountdownMin;
         StatsData.PullCountdownMax = FishStatsConfig.FishStatsData.PullCountdownMax;
+
+        StatsData.DistanceToWandering = FishStatsConfig.FishStatsData.DistanceToWandering;
+        StatsData.TimeWanderingMin = FishStatsConfig.FishStatsData.TimeWanderingMin;
+        StatsData.TimeWanderingMax = FishStatsConfig.FishStatsData.TimeWanderingMax;
+        StatsData.RateToInteresting = FishStatsConfig.FishStatsData.RateToInteresting;
+        StatsData.RateToEatBait = FishStatsConfig.FishStatsData.RateToEatBait;
     }
     public void CatchBait(Bait bait)
     {
@@ -195,31 +219,83 @@ public class Fish : MonoBehaviour
             var popup = Instantiate(textPopup,GameObject.Find("Panel").transform);
             var text = popup.GetComponent<TextPopup>();
             text.SetRectPosition(transform.position);
-            text.SetText(damage.ToString());
+            text.SetText("Shock! "+damage.ToString());
         }));
     }
     public void ReleaseBait()
     {
-        GetComponent<RandomMovement>().enabled = true;
-        GetComponent<FleeMovement>().enabled = false;
+        EnableRandomMovement();
         RefreshFishStats();
+        
+
+    }
+    void GetBait()
+    {
+
+    }
+    void Wandering()
+    {
+        StatsData.State = FishState.Wandering;
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(TagKeys.Bait))
+        
+        if(collision.CompareTag(TagKey.BaitAura) && StatsData.State == FishState.Moving)
+        {
+            var bait = collision.gameObject.GetComponentInParent<Bait>();
+            if (bait != null && !bait.HasFish)
+            {
+                EnableTotargetMovement(bait);
+            }
+            
+        }
+
+        if (collision.CompareTag(TagKey.Bait) && StatsData.State == FishState.Eating)
         {
             if(collision.gameObject.TryGetComponent(out Bait bait) && !bait.HasFish)
             {
                 bait.GetFish(this);
-                GetComponent<FleeMovement>().enabled = true;
-                GetComponent<FleeMovement>().RodPosition = bait.BaitStart;
-                GetComponent<RandomMovement>().Dispose();
-                StatsData.State = FishState.Flee;
                 CatchBait(bait);
+                EnableFleeMovement();
             }
-           
         }
-       
+    }
+    void EnableRandomMovement()
+    {
+        StatsData.State = FishState.Moving;
+        _randomMovement.enabled = true;
+        _fleeMovement.Dispose();
+        _toTargetMovement.Dispose();
+    }
+    void EnableFleeMovement()
+    {
+        StatsData.State = FishState.Flee;
+        _fleeMovement.enabled = true;
+        _fleeMovement.RodPosition = _bait.BaitStart;
+
+        _randomMovement.Dispose();
+        _toTargetMovement.Dispose();
+    }
+    void EnableTotargetMovement(Bait bait)
+    {
+        Debug.Log("EnableTargetmovement");
+        StatsData.State = FishState.Interesting;
+        _toTargetMovement.enabled = true;
+        _toTargetMovement.SetupBait(bait);
+        
+        
+
+        _fleeMovement.Dispose();
+        _randomMovement.Dispose();
+    }
+    void ChangeMovement(FishState state)
+    {
+        switch(state)
+        {
+            case FishState.Wandering:
+                break;
+            
+        }
     }
 }
