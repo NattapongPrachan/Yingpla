@@ -46,14 +46,20 @@ public class Rod : MonoBehaviour
             _baitObject?.Shock(50);
         }).AddTo(this);
     }
-    public void CastingBait(Vector2 screenPoint)
+    public void CastingBait(Vector3 screenPoint)
     {
         _screenPoint = screenPoint;
-        var direction = screenPoint - new Vector2(_spawnPoint.transform.position.x, _spawnPoint.transform.position.y);
-        _spawnPoint.transform.rotation = Quaternion.Euler(0, 0, GameUtils.CalculateAngleFromDirection(direction));
+        Debug.Log("screenPoint " + _screenPoint);
+       
+        //var direction = screenPoint - new Vector2(_spawnPoint.transform.position.x, _spawnPoint.transform.position.y);
+        var direction = screenPoint - _spawnPoint.transform.position;
+        _spawnPoint.transform.rotation = Quaternion.Euler(0, GameUtils.CalculateAngleFromDirection(direction), 0);
         RectTransformUtility.ScreenPointToWorldPointInRectangle(_spawnPoint.rectTransform, _spawnPoint.transform.position, Camera.main, out start);
+        var aaa = Camera.main.ScreenToWorldPoint(_spawnPoint.transform.position);
+        Debug.Log("aaaa " + aaa);
+        start = aaa;
         end = Camera.main.ScreenToWorldPoint(_screenPoint);
-        end.z = 0f;
+        //end.z = 0f;
         RodState = RodState.Casting;
         _baitObject = Instantiate(_baitPrefab, start, Quaternion.identity);
         _baitObject.Rod = this;
@@ -65,7 +71,9 @@ public class Rod : MonoBehaviour
                 RodState = RodState.Staying;
             }
         }).AddTo(this);
-        var distance = Vector2.Distance(end, start);
+        var distance = Vector3.Distance(end, start);
+        Debug.Log("Start " + start);
+        Debug.Log("end " + end);
         var castingTime = GameUtils.CalculateDistanceSpeedToTime(Config.CastingSpeed,distance );
         _baitObject.transform.DOMove(end, castingTime).OnComplete(() => {
             RodState = RodState.Staying;

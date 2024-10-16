@@ -10,9 +10,9 @@ public static class GameUtils
     }
     public static float CalculateAngleFromDirection(Vector3 direction)
     {
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
         if (angle < 0) angle += 360; 
-        angle -= 90;
+        //angle -= 90;
         return angle;
     }
    

@@ -6,7 +6,7 @@ using UnityEngine;
 [DefaultExecutionOrder(10)]
 public class AreaManager : MonoInstance<AreaManager>
 {
-    public Vector3 ScreenSize = new Vector3(1920,1080,0);
+    public Vector3 ScreenSize = new Vector3(1920,0,1080);
     public Vector2 SpawnOffsset = new Vector2(300,100);
     public Bounds AreaBounds;
 
@@ -14,17 +14,18 @@ public class AreaManager : MonoInstance<AreaManager>
     {
         base.Init();
         Random.InitState(Random.Range(0, 100));
-        AreaBounds = new Bounds(Vector3.zero, new Vector3(ScreenSize.x, ScreenSize.y, 0));
+        AreaBounds = new Bounds(Vector3.zero, new Vector3(ScreenSize.x, 0, ScreenSize.z));
     }
-    public static Vector2 GetPosition(Vector2 worldPosition)
+    public static Vector3 GetPosition(Vector3 worldPosition)
     {
-        return new Vector2(worldPosition.x / GameOrthoGraphicSize.Instance.pixelsPerUnit,
-                           worldPosition.y / GameOrthoGraphicSize.Instance.pixelsPerUnit);
+        return new Vector3(worldPosition.x / GameOrthoGraphicSize.Instance.pixelsPerUnit,
+                           worldPosition.y / GameOrthoGraphicSize.Instance.pixelsPerUnit,
+                           worldPosition.z / GameOrthoGraphicSize.Instance.pixelsPerUnit);
     }
-    public static Vector2 RandomPosition()
+    public static Vector3 RandomPosition()
     {
-        return GetPosition(new Vector2(Random.Range(Instance.AreaBounds.min.x, Instance.AreaBounds.max.x),
-                           Random.Range(Instance.AreaBounds.min.y, Instance.AreaBounds.max.y)));
+        return GetPosition(new Vector3(Random.Range(Instance.AreaBounds.min.x, Instance.AreaBounds.max.x),0,
+                           Random.Range(Instance.AreaBounds.min.z, Instance.AreaBounds.max.z)));
     }
 
     public static Vector2 GetOuterBounds()
@@ -34,16 +35,16 @@ public class AreaManager : MonoInstance<AreaManager>
         switch (side)
         {
             case 0: // ซ้าย
-                randomPosition = new Vector2(Instance.AreaBounds.min.x - Instance.SpawnOffsset.x, Random.Range(Instance.AreaBounds.min.y, Instance.AreaBounds.max.y));
+                randomPosition = new Vector3(Instance.AreaBounds.min.x - Instance.SpawnOffsset.x,0, Random.Range(Instance.AreaBounds.min.z, Instance.AreaBounds.max.z));
                 break;
             case 1: // ขวา
-                randomPosition = new Vector2(Instance.AreaBounds.max.x + Instance.SpawnOffsset.x, Random.Range(Instance.AreaBounds.min.y, Instance.AreaBounds.max.y));
+                randomPosition = new Vector3(Instance.AreaBounds.max.x + Instance.SpawnOffsset.x,0, Random.Range(Instance.AreaBounds.min.z, Instance.AreaBounds.max.z));
                 break;
             case 2: // บน
-                randomPosition = new Vector2(Random.Range(Instance.AreaBounds.min.x, Instance.AreaBounds.max.x), Instance.AreaBounds.max.y + Instance.SpawnOffsset.y);
+                randomPosition = new Vector3(Random.Range(Instance.AreaBounds.min.x, Instance.AreaBounds.max.x),0, Instance.AreaBounds.max.z + Instance.SpawnOffsset.y);
                 break;
             case 3: // ล่าง
-                randomPosition = new Vector2(Random.Range(Instance.AreaBounds.min.x, Instance.AreaBounds.max.x), Instance.AreaBounds.min.y - Instance.SpawnOffsset.y);
+                randomPosition = new Vector3(Random.Range(Instance.AreaBounds.min.x, Instance.AreaBounds.max.x),0, Instance.AreaBounds.min.z - Instance.SpawnOffsset.y);
                 break;
         }
         return GetPosition(randomPosition);

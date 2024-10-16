@@ -13,6 +13,7 @@ public class FishDebugUI : MonoBehaviour
     [SerializeField] Vector2 _offsetPosition;
     private void Start()
     {
+        return;
         transform.parent = GameObject.Find("Panel").transform;
         _fish.ObserveEveryValueChanged(_ => _.StatsData.State).Subscribe(state =>
         {
