@@ -6,7 +6,7 @@ using UniRx;
 using System;
 public class FleeMovement : MonoBehaviour
 {
-    public Vector3 RodPosition;
+    public Vector3 BaitPosition;
     [SerializeField] Fish _fish;
     [SerializeField] float _randomInAngle;
     [ShowInInspector] Vector3 _direction;
@@ -29,18 +29,18 @@ public class FleeMovement : MonoBehaviour
     }
     private void Update()
     {
-        _direction = transform.position - RodPosition;
+        _direction = transform.position - BaitPosition;
         var angle = GameUtils.CalculateAngleFromDirection(_direction);
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Euler(0, angle, 0);
         transform.position += (_direction.normalized+ _randomDirection.normalized) * (_fish.DiffSpeed)* Time.deltaTime;
-
+        _fish.StatsData.MoveDirection = new Vector2(_direction.x,_direction.z);
     }
 
     Vector2 GetRandomDirection()
     {
         float angle = UnityEngine.Random.Range(-_randomInAngle, _randomInAngle);
         float radians = angle * Mathf.Rad2Deg;
-        return new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)); 
+        return new Vector3(Mathf.Cos(radians),0, Mathf.Sin(radians)); 
     }
     public void Dispose()
     {

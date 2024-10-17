@@ -9,18 +9,18 @@ public class Bait : MonoBehaviour
     public bool HasFish { get; private set; }
     public Vector3 BaitStart;
     public Rod Rod;
-    public Collider2D AuraCollider;
-    [SerializeField] Fish _fish;
+    public Collider AuraCollider;
+    public Fish Fish { get; private set; }
     public void GetFish(Fish fish)
     {
         HasFish = true;
-        _fish = fish;
+        Fish = fish;
         transform.DOKill();
     }
     public void Shock(int damage)
     {
         
-        _fish?.TakeDamage(Random.Range(0,damage));
+        Fish?.TakeDamage(Random.Range(0,damage));
     }
     public void OpenAuraCollider()
     {
@@ -28,8 +28,8 @@ public class Bait : MonoBehaviour
     }
     public void Dispose()
     {
-        _fish?.ReleaseBait();
-        _fish = null;
+        Fish?.ReleaseBait();
+        Fish = null;
         Destroy(gameObject);
     }
 }

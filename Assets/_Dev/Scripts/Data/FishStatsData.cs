@@ -38,5 +38,7 @@ public class FishStatsData
     public float TimeWanderingMax;
     public float RateToInteresting;
     public float RateToEatBait;
+    [SerializeField]
+    public Vector2 MoveDirection;
     
 }

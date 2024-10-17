@@ -12,7 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a500ecbe6b80b16479a575cd78f320d0, type: 3}
   m_Name: BaseRodConfig
   m_EditorClassIdentifier: 
-  CastingSpeed: 32.17
-  DragSpeed: 2
-  PullPower: 1
-  ReachToDistance: 1
+  RodStatsData:
+    RodState: 0
+    CastingSpeed: 10
+    DragSpeed: 2
+    PullPower: 1
+    ReachToDistance: 1
+    IsPulling: 0
+    CurrentDiffAngle: 0
+    DiffAngleRate: 30
+    LineStrength: 1
+    CurrentLineStrength: 0
+    IncreaseStrength: 0.002
+    DecreaseStrength: 0.001
+    InputDirection: {x: 0, y: 0}

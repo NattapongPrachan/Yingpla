@@ -5,8 +5,10 @@ using UniRx;
 using UnityEngine.UI;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using UnityEngine.InputSystem;
+using System;
 [RequireComponent(typeof(RodUI))]
-public class Rod : MonoBehaviour
+public class Rod : SerializedMonoBehaviour
 {
     
     [SerializeField] PlayerTouchScreen _playerTouchScreen;
@@ -14,24 +16,28 @@ public class Rod : MonoBehaviour
     [Header("Bait")]
     [SerializeField] Bait _baitPrefab;
     [SerializeField] Image _spawnPoint;
-    
+    [Header("Input&Controller")]
+    [SerializeField]RodInput _playerInput;
     [SerializeField] Vector3 start;
     [SerializeField] Vector3 end;
     Vector2 _screenPoint = Vector2.zero;
     [SerializeField]Bait _baitObject;
-
-    [Header("State")]
-    public RodState RodState;
-    public bool IsPulling;
+    [Header("FishingLine")]
+    [SerializeField] Slider _fishingLineSlider;
     [Header("Config")]
     public RodConfig Config;
+    public RodStatsData StatsData;
     public float DiffSpeed;
+
+    [SerializeField] float fishAngle;
+    [SerializeField] float rodAngle;
     private void Start()
     {
-        DiffSpeed = Config.DragSpeed;
+        UpdateRodStatsData();
+        AddInput();
         _playerTouchScreen.OnScreenPoint.Subscribe(screenPoint =>
         {
-            switch(RodState)
+            switch(StatsData.RodState)
             {
                 case RodState.None:
                     CastingBait(screenPoint);
@@ -39,28 +45,60 @@ public class Rod : MonoBehaviour
             }
         }).AddTo(this);
         _playerTouchScreen.OnPressed.Subscribe(isPressed => {
-            IsPulling = isPressed;
+            StatsData.IsPulling = isPressed;
         }).AddTo(this);
         _playerTouchScreen.OnShock.Subscribe(isShock =>
         {
             _baitObject?.Shock(50);
         }).AddTo(this);
+        _rodUI.Rod = this;
+    }
+    void AddInput()
+    {
+        Debug.Log("input " + _playerInput.Player.Movement);
+        _playerInput = new RodInput();
+        _playerInput.Enable();
+        _playerInput.Player.Movement.performed += Movement_performed;
+    }
+
+    private void Movement_performed(InputAction.CallbackContext obj)
+    {
+        StatsData.InputDirection = obj.ReadValue<Vector2>();
+    }
+
+    public void UpdateRodStatsData()
+    {
+        StatsData = new RodStatsData();
+        StatsData.CastingSpeed = Config.RodStatsData.CastingSpeed;
+        StatsData.DragSpeed = Config.RodStatsData.DragSpeed;
+        StatsData.PullPower = Config.RodStatsData.PullPower;
+        StatsData.ReachToDistance = Config.RodStatsData.ReachToDistance;
+       
+        StatsData.IsPulling = Config.RodStatsData.IsPulling;
+
+        StatsData.DiffAngleRate = Config.RodStatsData.DiffAngleRate;
+        StatsData.LineStrength = Config.RodStatsData.LineStrength;
+        StatsData.CurrentLineStrength = 0;
+        StatsData.IncreaseStrength = Config.RodStatsData.IncreaseStrength;
+        StatsData.DecreaseStrength = Config.RodStatsData.DecreaseStrength;
+        //--//
+        DiffSpeed = StatsData.DragSpeed;
+        StatsData.InputDirection = Vector2.zero;
+        StatsData.CurrentDiffAngle = 0;
+        
+       
     }
     public void CastingBait(Vector3 screenPoint)
     {
         _screenPoint = screenPoint;
-        Debug.Log("screenPoint " + _screenPoint);
-       
-        //var direction = screenPoint - new Vector2(_spawnPoint.transform.position.x, _spawnPoint.transform.position.y);
         var direction = screenPoint - _spawnPoint.transform.position;
-        _spawnPoint.transform.rotation = Quaternion.Euler(0, GameUtils.CalculateAngleFromDirection(direction), 0);
+        _spawnPoint.transform.rotation = Quaternion.Euler(0, 0, GameUtils.CalculateAngleFromDirection(direction));
         RectTransformUtility.ScreenPointToWorldPointInRectangle(_spawnPoint.rectTransform, _spawnPoint.transform.position, Camera.main, out start);
-        var aaa = Camera.main.ScreenToWorldPoint(_spawnPoint.transform.position);
-        Debug.Log("aaaa " + aaa);
-        start = aaa;
+        start = Camera.main.ScreenToWorldPoint(_spawnPoint.transform.position);
+        start.y = GameUtils.YAxis;
         end = Camera.main.ScreenToWorldPoint(_screenPoint);
-        //end.z = 0f;
-        RodState = RodState.Casting;
+        end.y = GameUtils.YAxis;
+        StatsData.RodState = RodState.Casting;
         _baitObject = Instantiate(_baitPrefab, start, Quaternion.identity);
         _baitObject.Rod = this;
         _baitObject.BaitStart = start;
@@ -68,28 +106,63 @@ public class Rod : MonoBehaviour
         {
             if(hasFish)
             {
-                RodState = RodState.Staying;
+                StatsData.RodState = RodState.Staying;
             }
         }).AddTo(this);
         var distance = Vector3.Distance(end, start);
-        Debug.Log("Start " + start);
-        Debug.Log("end " + end);
-        var castingTime = GameUtils.CalculateDistanceSpeedToTime(Config.CastingSpeed,distance );
+        var castingTime = GameUtils.CalculateDistanceSpeedToTime(StatsData.CastingSpeed,distance );
         _baitObject.transform.DOMove(end, castingTime).OnComplete(() => {
-            RodState = RodState.Staying;
+            StatsData.RodState = RodState.Staying;
             _baitObject.OpenAuraCollider();
         });
         _rodUI.SetupBaitObject(_baitObject.transform, start);
     }
+    void UpdateFishingLine()
+    {
+        if (_baitObject == null ||_baitObject.Fish == null) return;
+
+        fishAngle = GameUtils.CalculateAngleFromDirection2d(_baitObject.Fish.StatsData.MoveDirection);
+        rodAngle = GameUtils.CalculateAngleFromDirection2d(StatsData.InputDirection);
+
+
+        StatsData.CurrentDiffAngle = fishAngle - (rodAngle+180);
+        if (StatsData.CurrentDiffAngle < 0)
+        {
+            StatsData.CurrentDiffAngle += 360;
+        }
+        //if(_baitObject.Fish.StatsData.IsPulling && StatsData.IsPulling)
+        //{
+        //    StatsData.CurrentLineStrength += StatsData.IncreaseStrength;
+        //}
+        //else
+        //{
+        //    StatsData.CurrentLineStrength -= StatsData.DecreaseStrength;
+        //    if (StatsData.CurrentLineStrength <= 0) StatsData.CurrentLineStrength = 0;
+        //}
+        if(Mathf.Abs(StatsData.CurrentDiffAngle) > StatsData.DiffAngleRate)
+        {
+            StatsData.CurrentLineStrength += StatsData.IncreaseStrength;
+        }
+        else
+        {
+            StatsData.CurrentLineStrength -= StatsData.DecreaseStrength;
+            if (StatsData.CurrentLineStrength <= 0) StatsData.CurrentLineStrength = 0;
+        }
+        
+        if (StatsData.CurrentLineStrength >= StatsData.LineStrength)
+        {
+            DestroyBait();
+        }
+        _fishingLineSlider.value = (StatsData.CurrentLineStrength / StatsData.LineStrength);
+    }
     void Pulling()
     {
-        if (!IsPulling) return;
-        if(RodState == RodState.Draging || RodState == RodState.Staying)
+        if (!StatsData.IsPulling) return;
+        if(StatsData.RodState == RodState.Draging || StatsData.RodState == RodState.Staying || StatsData.RodState == RodState.None)
         {
             var direction = start - _baitObject.transform.position;
-            direction.z = 0;
             var distance = Vector3.Distance(_baitObject.transform.position, start);
-            if (distance <= Config.ReachToDistance)
+            if (distance <= StatsData.ReachToDistance)
             {
                 DestroyBait();
             }
@@ -98,19 +171,28 @@ public class Rod : MonoBehaviour
                 _baitObject.transform.position += direction.normalized * DiffSpeed * Time.deltaTime;
             }
         }
-        
     }
     [Button]
     public void DestroyBait()
     {
         _baitObject.Dispose();
         _baitObject = null;
-        RodState = RodState.None;
         _rodUI.Reset();
+        Reset();
+        ResetUI();
+    }
+    private void Reset()
+    {
+        UpdateRodStatsData();
+    }
+    void ResetUI()
+    {
+        _fishingLineSlider.value = 0;
     }
 
     private void Update()
     {
         Pulling();
+        UpdateFishingLine();
     }
 }

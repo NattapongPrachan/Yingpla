@@ -7,7 +7,6 @@ using Sirenix.OdinInspector;
 using System;
 using System.Resources;
 using Unity.VisualScripting;
-[RequireComponent(typeof(BoxCollider2D))]
 public class Fish : MonoBehaviour
 {
 
@@ -15,7 +14,6 @@ public class Fish : MonoBehaviour
     [SerializeField]ToTargetMovement _toTargetMovement;
     [SerializeField]RandomMovement _randomMovement;
     [SerializeField]FleeMovement _fleeMovement;
-    BoxCollider2D _boxCollider;
     [SerializeField]Transform _mouseTransform;
     public Bait _bait { get; private set; }
     
@@ -131,13 +129,17 @@ public class Fish : MonoBehaviour
     }
     void Fighting()
     {
-        DiffPower = StatsData.CurrentPower - _bait.Rod.Config.PullPower;
+        DiffPower = StatsData.CurrentPower - _bait.Rod.StatsData.PullPower;
         DiffPercent = StatsData.CurrentPower / StatsData.Power;
         DiffSpeed = StatsData.Sprint * DiffPercent;
         if (StatsData.IsPulling)
-            _bait.Rod.DiffSpeed = _bait.Rod.Config.DragSpeed * (1 - DiffPercent);
+        {
+            _bait.Rod.DiffSpeed = _bait.Rod.StatsData.DragSpeed * (1 - DiffPercent);
+        }
         else
-            _bait.Rod.DiffSpeed = _bait.Rod.Config.DragSpeed;
+        {
+            _bait.Rod.DiffSpeed = _bait.Rod.StatsData.DragSpeed;
+        }
 
         if (DiffPower < 0 || !StatsData.IsPulling || StatsData.State == FishState.Stuned)
         {
@@ -146,7 +148,10 @@ public class Fish : MonoBehaviour
         else
         {
             if (StatsData.IsPulling)
+            {
                 _bait.transform.position = transform.position;
+                GetComponent<RotationDirection>().SetupTargetPosition(_bait.transform.position);
+            }
         }
         CalculateStamina();
     }
@@ -238,22 +243,21 @@ public class Fish : MonoBehaviour
         StatsData.State = FishState.Wandering;
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        
-        if(collision.CompareTag(TagKey.BaitAura) && StatsData.State == FishState.Moving)
+        if (collision.CompareTag(TagKey.BaitAura) && StatsData.State == FishState.Moving)
         {
             var bait = collision.gameObject.GetComponentInParent<Bait>();
             if (bait != null && !bait.HasFish)
             {
                 EnableTotargetMovement(bait);
             }
-            
+
         }
 
         if (collision.CompareTag(TagKey.Bait) && StatsData.State == FishState.Eating)
         {
-            if(collision.gameObject.TryGetComponent(out Bait bait) && !bait.HasFish)
+            if (collision.gameObject.TryGetComponent(out Bait bait) && !bait.HasFish)
             {
                 bait.GetFish(this);
                 CatchBait(bait);
@@ -261,6 +265,29 @@ public class Fish : MonoBehaviour
             }
         }
     }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+        
+    //    if(collision.CompareTag(TagKey.BaitAura) && StatsData.State == FishState.Moving)
+    //    {
+    //        var bait = collision.gameObject.GetComponentInParent<Bait>();
+    //        if (bait != null && !bait.HasFish)
+    //        {
+    //            EnableTotargetMovement(bait);
+    //        }
+            
+    //    }
+
+    //    if (collision.CompareTag(TagKey.Bait) && StatsData.State == FishState.Eating)
+    //    {
+    //        if(collision.gameObject.TryGetComponent(out Bait bait) && !bait.HasFish)
+    //        {
+    //            bait.GetFish(this);
+    //            CatchBait(bait);
+    //            EnableFleeMovement();
+    //        }
+    //    }
+    //}
     void EnableRandomMovement()
     {
         StatsData.State = FishState.Moving;
@@ -272,7 +299,7 @@ public class Fish : MonoBehaviour
     {
         StatsData.State = FishState.Flee;
         _fleeMovement.enabled = true;
-        _fleeMovement.RodPosition = _bait.BaitStart;
+        _fleeMovement.BaitPosition = _bait.BaitStart;
 
         _randomMovement.Dispose();
         _toTargetMovement.Dispose();

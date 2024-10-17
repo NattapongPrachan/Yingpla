@@ -40,4 +40,4 @@ MonoBehaviour:
     TimeWanderingMin: 0.1
     TimeWanderingMax: 2
     RateToInteresting: 0.5
-    RateToEatBait: 0.9
+    RateToEatBait: 0.1

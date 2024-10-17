@@ -48,7 +48,6 @@ public class ToTargetMovement : MonoBehaviour
     }
     void Decide()
     {
-        Debug.Log("Decide");
         var eatBait = Random.Range(0f, 1f);
         var StillInteresting = Random.Range(0, 1f);
         if (eatBait >= _fish.StatsData.RateToEatBait)
@@ -89,7 +88,7 @@ public class ToTargetMovement : MonoBehaviour
     {
         _direction = _bait.transform.position - transform.position;
         var angle = GameUtils.CalculateAngleFromDirection(_direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), 100 * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, angle, 0), 100 * Time.deltaTime);
     }
     void MoveTargetWithEating()
     {
@@ -115,8 +114,9 @@ public class ToTargetMovement : MonoBehaviour
     void MoveAroundTarget(float timer)
     {
         transform.DOKill();
-        var circle = Random.insideUnitCircle;
-        transform.DOMove(new Vector2(transform.position.x,transform.position.y)+circle, timer);
+        var randomSphere = Random.insideUnitSphere*3;
+        randomSphere.y = 0;
+        transform.DOMove(new Vector3(transform.position.x,transform.position.y,transform.position.z)+randomSphere, timer);
     }
     public void Dispose()
     {
