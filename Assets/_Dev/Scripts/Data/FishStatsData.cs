@@ -17,6 +17,7 @@ public class FishStatsData
     public float MaxRegenStamina = 0.05f;
     public float TimeToKnockDown;
     public float Speed;
+    public float RotateSpeed;
     public float Sprint; // percent ดีมั้ย?
     public float RegenRate;
     public bool IsCatch = false;

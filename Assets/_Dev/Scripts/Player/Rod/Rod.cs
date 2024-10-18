@@ -31,6 +31,8 @@ public class Rod : SerializedMonoBehaviour
 
     [SerializeField] float fishAngle;
     [SerializeField] float rodAngle;
+    [SerializeField] float fishToRodAngle;
+    [SerializeField] float baitAngle;
     private void Start()
     {
         UpdateRodStatsData();
@@ -121,27 +123,17 @@ public class Rod : SerializedMonoBehaviour
     {
         if (_baitObject == null ||_baitObject.Fish == null) return;
 
-        fishAngle = GameUtils.CalculateAngleFromDirection2d(_baitObject.Fish.StatsData.MoveDirection);
-        rodAngle = GameUtils.CalculateAngleFromDirection2d(StatsData.InputDirection);
+        var fishToRodDirection = new Vector3(_rodUI.WorldTransform.x,0,_rodUI.WorldTransform.z) - _baitObject.transform.position;
+        var direction = new Vector2(_rodUI.WorldTransform.x, _rodUI.WorldTransform.z) - new Vector2(_baitObject.transform.position.x, _baitObject.transform.position.z);
+        fishToRodAngle = GameUtils.CalculateAngleFromDirection2d(direction, true); 
+        rodAngle = GameUtils.CalculateAngleFromDirection2d(StatsData.InputDirection,true);
+        baitAngle = _rodUI.GetRodToBaitAngle;
 
-
-        StatsData.CurrentDiffAngle = fishAngle - (rodAngle+180);
-        if (StatsData.CurrentDiffAngle < 0)
-        {
-            StatsData.CurrentDiffAngle += 360;
-        }
-        //if(_baitObject.Fish.StatsData.IsPulling && StatsData.IsPulling)
-        //{
-        //    StatsData.CurrentLineStrength += StatsData.IncreaseStrength;
-        //}
-        //else
-        //{
-        //    StatsData.CurrentLineStrength -= StatsData.DecreaseStrength;
-        //    if (StatsData.CurrentLineStrength <= 0) StatsData.CurrentLineStrength = 0;
-        //}
-        if(Mathf.Abs(StatsData.CurrentDiffAngle) > StatsData.DiffAngleRate)
+        StatsData.CurrentDiffAngle = Mathf.Abs(_rodUI.GetRodToBaitAngle - (rodAngle+180));
+        if(StatsData.CurrentDiffAngle > StatsData.DiffAngleRate)
         {
             StatsData.CurrentLineStrength += StatsData.IncreaseStrength;
+            if (StatsData.CurrentLineStrength >= StatsData.LineStrength) StatsData.CurrentLineStrength = StatsData.LineStrength;
         }
         else
         {
@@ -151,7 +143,7 @@ public class Rod : SerializedMonoBehaviour
         
         if (StatsData.CurrentLineStrength >= StatsData.LineStrength)
         {
-            DestroyBait();
+            //DestroyBait();
         }
         _fishingLineSlider.value = (StatsData.CurrentLineStrength / StatsData.LineStrength);
     }

@@ -49,4 +49,10 @@ public class AreaManager : MonoInstance<AreaManager>
         }
         return GetPosition(randomPosition);
     }
+    public static Vector2 GetInerBounds()
+    {
+        return new Vector3(Random.Range(Instance.AreaBounds.min.x, Instance.AreaBounds.max.x),
+                                                0,
+                                                Random.Range(Instance.AreaBounds.min.y, Instance.AreaBounds.max.y));
+    }
 }

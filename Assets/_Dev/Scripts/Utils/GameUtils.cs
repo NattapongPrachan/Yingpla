@@ -15,12 +15,13 @@ public static class GameUtils
         if (angle < 0) angle += 360; 
         return angle;
     }
-    public static float CalculateAngleFromDirection2d(Vector3 direction)
+    public static float CalculateAngleFromDirection2d(Vector3 direction,bool invertAngle = false)
     {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        if (angle < 0) angle += 360;
         angle -= 90;
-        return angle;
+        angle *= invertAngle ? -1 : 1;
+        if (angle < 0) angle += 360;
+        return angle%360;
     }
 
 }

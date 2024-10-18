@@ -18,6 +18,22 @@ public class RodUI : MonoBehaviour
     [SerializeField] float _swayAmount = 0.2f;
     [SerializeField] float _swaySpeed = 2f; // ความเร็วในการย้วย
     [SerializeField] int _lineSegment = 10;
+    public Vector3 WorldTransform
+    {
+        get
+        {
+            return Camera.main.ScreenToWorldPoint(_rodImage.transform.position);
+        }
+    }
+    public float GetRodToBaitAngle
+    {
+        get
+        {
+            var baitScreenPoint = Camera.main.WorldToScreenPoint(_baitTransform.position);
+            var direction = baitScreenPoint - _spawnPoint.transform.position;
+            return GameUtils.CalculateAngleFromDirection2d(direction,true);
+        }
+    }
     public Rod Rod;
     Vector3 _baitStartPosition;
     Transform _baitTransform;
@@ -53,8 +69,21 @@ public class RodUI : MonoBehaviour
         var baitScreenPoint = Camera.main.WorldToScreenPoint(_baitTransform.position);
         var direction = baitScreenPoint - _spawnPoint.transform.position;
         var angle = GameUtils.CalculateAngleFromDirection2d(Rod.StatsData.InputDirection);
-        
+
         _rodImage.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+
+        //var baitScreenPoint = Camera.main.WorldToScreenPoint(_baitTransform.position);
+        //var direction = baitScreenPoint - _spawnPoint.transform.position;
+        //var angle = GameUtils.CalculateAngleFromDirection2d(direction);
+
+        //_rodImage.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+    public float GetAngleFormRodToBait()
+    {
+        var baitScreenPoint = Camera.main.WorldToScreenPoint(_baitTransform.position);
+        var direction = baitScreenPoint - _spawnPoint.transform.position;
+        return GameUtils.CalculateAngleFromDirection2d(direction);
     }
 
     void UpdateLine()

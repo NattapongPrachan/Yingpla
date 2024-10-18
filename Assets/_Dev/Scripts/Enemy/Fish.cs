@@ -14,6 +14,7 @@ public class Fish : MonoBehaviour
     [SerializeField]ToTargetMovement _toTargetMovement;
     [SerializeField]RandomMovement _randomMovement;
     [SerializeField]FleeMovement _fleeMovement;
+    public RotationDirection RotationDirection { get; private set; }
     [SerializeField]Transform _mouseTransform;
     public Bait _bait { get; private set; }
     
@@ -40,6 +41,7 @@ public class Fish : MonoBehaviour
     IDisposable TimeToStunningObservable;
     private void Start()
     {
+        RotationDirection = GetComponent<RotationDirection>();
         this.ObserveEveryValueChanged(_ => _.FishStatsConfig).Subscribe(fishStatsConfig =>
         {
             
@@ -84,6 +86,7 @@ public class Fish : MonoBehaviour
         StatsData.RegenRate = FishStatsConfig.FishStatsData.RegenRate;
         StatsData.State = FishStatsConfig.FishStatsData.State;
         StatsData.Speed = FishStatsConfig.FishStatsData.Speed;
+        StatsData.RotateSpeed = FishStatsConfig.FishStatsData.RotateSpeed;
         StatsData.Sprint = FishStatsConfig.FishStatsData.Sprint;
 
         StatsData.RoundPullingDuration = FishStatsConfig.FishStatsData.RoundPullingDuration;
@@ -150,7 +153,7 @@ public class Fish : MonoBehaviour
             if (StatsData.IsPulling)
             {
                 _bait.transform.position = transform.position;
-                GetComponent<RotationDirection>().SetupTargetPosition(_bait.transform.position);
+                //GetComponent<RotationDirection>().SetupTargetPosition(_bait.transform.position);
             }
         }
         CalculateStamina();

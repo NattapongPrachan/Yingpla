@@ -13,8 +13,17 @@ public class RotationDirection : MonoBehaviour
         var direction = targetPosition - transform.position;
         var angle = GameUtils.CalculateAngleFromDirection(direction);
         var rot = Quaternion.Euler(0, angle, 0);
-        _rotTransform.transform.DORotate(rot.eulerAngles, _rotateDuration);
+        UpdateRotaiton(rot);
+       // _rotTransform.transform.DORotate(rot.eulerAngles, _rotateDuration);
 
     }
-   
+    public void UpdateRotaiton(Quaternion newRotation)
+    {
+        _rotTransform.DORotateQuaternion(newRotation, _rotateDuration);
+    }
+    private void Update()
+    {
+        
+    }
+
 }

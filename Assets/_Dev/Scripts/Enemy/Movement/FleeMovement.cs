@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using System;
+using Unity.VisualScripting;
+using UnityEngine.UIElements;
 public class FleeMovement : MonoBehaviour
 {
     public Vector3 BaitPosition;
@@ -14,33 +16,54 @@ public class FleeMovement : MonoBehaviour
     [ShowInInspector]Vector3 _randomDirection = Vector3.zero;
     IDisposable _timeRandomDirectionObservable;
     float _randomTime;
+
+    [Header("Debug")]
+    [SerializeField] float _randomAngle;
+    [SerializeField] float _rotateSpeed;
     private void Start()
     {
-        RandomDirection();
+        //RandomDirection();
     }
     void RandomDirection()
     {
+        _timeRandomDirectionObservable?.Dispose();
         _randomTime = UnityEngine.Random.Range(0, TimeSecound);
         _timeRandomDirectionObservable = Observable.Timer(TimeSpan.FromSeconds(_randomTime)).Subscribe(_ => {
             _randomTime = UnityEngine.Random.Range(0, TimeSecound);
             _randomDirection = GetRandomDirection();
             RandomDirection();
+            _fish.RotationDirection.UpdateRotaiton(RandomRotation());
         }).AddTo(this);
     }
     private void Update()
     {
         _direction = transform.position - BaitPosition;
-        var angle = GameUtils.CalculateAngleFromDirection(_direction);
-        transform.rotation = Quaternion.Euler(0, angle, 0);
-        transform.position += (_direction.normalized+ _randomDirection.normalized) * (_fish.DiffSpeed)* Time.deltaTime;
-        _fish.StatsData.MoveDirection = new Vector2(_direction.x,_direction.z);
+        
+        //var newRot = Quaternion.Euler(0, angle + _randomAngle, 0);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, newRot, _rotateSpeed * Time.deltaTime);
+        transform.position += transform.forward * (_fish.DiffSpeed) * Time.deltaTime;
+        _fish.StatsData.MoveDirection = new Vector2(_fish.transform.forward.x, _fish.transform.forward.z);
     }
+    
 
     Vector2 GetRandomDirection()
     {
-        float angle = UnityEngine.Random.Range(-_randomInAngle, _randomInAngle);
-        float radians = angle * Mathf.Rad2Deg;
+        _randomAngle = UnityEngine.Random.Range(-_randomInAngle, _randomInAngle);
+        float radians = _randomAngle * Mathf.Rad2Deg;
         return new Vector3(Mathf.Cos(radians),0, Mathf.Sin(radians)); 
+    }
+    Quaternion RandomRotation()
+    {
+        var angle = GameUtils.CalculateAngleFromDirection(_direction);
+        return Quaternion.Euler(0, angle + _randomAngle, 0);
+    }
+    private void OnEnable()
+    {
+        RandomDirection();
+    }
+    private void OnDisable()
+    {
+        
     }
     public void Dispose()
     {
