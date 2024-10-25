@@ -23,11 +23,13 @@ MonoBehaviour:
     MinRegenStamina: 0.5
     MaxRegenStamina: 1
     TimeToKnockDown: 0
-    Speed: 2
-    Sprint: 2
     RegenRate: 1
     IsCatch: 0
     IsStun: 0
+    Speed: 2
+    RotateSpeed: 10
+    Sprint: 2
+    ReachToDistance: 3
     RoundPullingDuration: 0.5
     PercentPulling: 0.5
     IgnorePullingWhenStaminaLower: 20
@@ -41,3 +43,4 @@ MonoBehaviour:
     TimeWanderingMax: 2
     RateToInteresting: 0.5
     RateToEatBait: 0.1
+    MoveDirection: {x: 0, y: 0}

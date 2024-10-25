@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "new RodConfig",menuName = "scriptableObject/RodConfig",order = 10)]
+[CreateAssetMenu(fileName = "new RodConfig",menuName = "ScriptableObject/RodConfig",order = 10)]
 public class RodConfig : ScriptableObject
 {
     public RodStatsData RodStatsData;

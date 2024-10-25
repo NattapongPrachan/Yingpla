@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class Depug {
 
-    internal static string Log(string message,Color? color)
+    internal static string Log(string message, Color? color)
     {
         color = color ?? Color.black;
-        //Debug.LogFormat(string.Format("<color=#{0}>{1}</color>", ColorUtility.ToHtmlStringRGBA(color.Value), message));
+        var format = string.Format("<color=#{0}>{1}</color>", ColorUtility.ToHtmlStringRGBA(color.Value), message);
         return string.Format("<color=#{0}>{1}</color>", ColorUtility.ToHtmlStringRGBA(color.Value), message);
     }
-    
+    public static void LogColor(string message, Color? color)
+    {
+        var format = string.Format("<color=#{0}>{1}</color>", ColorUtility.ToHtmlStringRGBA(color.Value), message);
+        Debug.Log(format);
+    }
+
 }

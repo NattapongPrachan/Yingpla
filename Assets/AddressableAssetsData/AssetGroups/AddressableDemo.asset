@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: AddressableDemo
+  m_EditorClassIdentifier: 
+  m_GroupName: AddressableDemo
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 55e18c82754a42b4da73bf0414020c2c
+  m_SerializeEntries:
+  - m_GUID: 0e9e7218f22ef574285a879b8f00fcba
+    m_Address: Plane
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 624615513f284e944888d82ed88c8e25
+    m_Address: Sphere
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 676c2daf7efcdd746a163a4f033ebaab
+    m_Address: Canvas1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75544bd9cff139b4aad4b61d79f6b3c7
+    m_Address: Cylinder
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 767737196ffe9f746961970ba4026d1f
+    m_Address: Canvas4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7738cef84a15d424183baa9d5ed034dd
+    m_Address: Cube
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f017e316046a8346ba430de96b7d3d0
+    m_Address: Canvas2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a76c5807ad4c5f6428b53dc48a5ac032
+    m_Address: Capsule
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c18c533ef96aa194b91ddd760e04d870
+    m_Address: Canvas
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: daa70169d7079444abf03924568c77c5
+    m_Address: Canvas3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Demo
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 39960a874dd0fe0478f20500fd3dc31f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9b8a7e6817c5f5847aee3bde13fde427, type: 2}
+    - {fileID: 11400000, guid: 62e000b369dbfe9449c9a76b7c1c2db8, type: 2}

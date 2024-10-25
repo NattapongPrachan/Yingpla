@@ -9,6 +9,10 @@ public static class GameUtils
     {
         return  distance / speed;
     }
+    public static float CalculateRotationSpeedToTime(float speed, float diffRotation)
+    {
+        return diffRotation / speed;
+    }
     public static float CalculateAngleFromDirection(Vector3 direction)
     {
         float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;

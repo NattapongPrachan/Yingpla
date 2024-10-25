@@ -16,12 +16,15 @@ public class FishStatsData
     public float MinRegenStamina = 0.01f;
     public float MaxRegenStamina = 0.05f;
     public float TimeToKnockDown;
-    public float Speed;
-    public float RotateSpeed;
-    public float Sprint; // percent ดีมั้ย?
+    
     public float RegenRate;
     public bool IsCatch = false;
     public bool IsStun = false;
+    [Header("Movement")]
+    public float Speed;
+    public float RotateSpeed;
+    public float Sprint; // percent ดีมั้ย?
+    public float ReachToDistance;
     [Header("Percent Of pulling")]
     public float RoundPullingDuration = 2;
     public float PercentPulling = .5f;

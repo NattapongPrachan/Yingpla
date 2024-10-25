@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 /// <summary>
 /// Be aware this will not prevent a non singleton constructor
@@ -8,7 +9,7 @@
 /// As a note, this is made as MonoBehaviour because we need Coroutines.
 /// </summary>
 [DefaultExecutionOrder(1)]
-public class MonoInstance<T> : MonoBehaviour where T : MonoBehaviour
+public class MonoInstance<T> : SerializedMonoBehaviour where T : SerializedMonoBehaviour
 {
     private static T instance;
 

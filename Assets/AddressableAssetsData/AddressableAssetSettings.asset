@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 3de7cd6ffee68724b99c0546d0a8a4b7
   m_currentHash:
     serializedVersion: 2
-    Hash: 22f2c00746211dd6090d296d4ba9b89a
+    Hash: 85d1e1378aa2c19ca9e52d6c72be9ead
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -38,13 +38,15 @@ MonoBehaviour:
     m_Id: 
   m_RemoteCatalogLoadPath:
     m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
   - {fileID: 11400000, guid: a297c66b7a0e43a44bb54da24b128a54, type: 2}
+  - {fileID: 11400000, guid: 957319743dd352e4882dd28e3ad7b219, type: 2}
+  - {fileID: 11400000, guid: f916753dc844b8748983a1cd5a124667, type: 2}
   - {fileID: 11400000, guid: 0cd54bda92ee50b49b3d955259f473c8, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
@@ -87,6 +89,10 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Demo
+    - Sound
+    - SFX
+    - Music
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: c0825277644f6d743b82eb54d850439a, type: 2}

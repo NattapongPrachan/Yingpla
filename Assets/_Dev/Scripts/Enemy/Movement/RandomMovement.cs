@@ -8,14 +8,18 @@ using UnityEngine;
 public class RandomMovement : MonoBehaviour
 {
     [SerializeField] float _speed;
-    [SerializeField] float _reachToDistance = 1;
     [SerializeField] Vector3 _randomPosition;
     [SerializeField] float _distance;
+    [SerializeField] float _reachToDistance;
     void Awake()
     {
         transform.position = AreaManager.GetOuterBounds();
         //RandomMove();
         //AddListener();
+    }
+    public void SetReachToDistance(float reachToDistance)
+    {
+        _reachToDistance = reachToDistance;
     }
     void AddListener()
     {
@@ -27,7 +31,8 @@ public class RandomMovement : MonoBehaviour
     void RandomMove()
     {
         _randomPosition = AreaManager.RandomPosition();//randomposition พัง
-        var distance = Vector3.Distance(_randomPosition, transform.position);
+
+        //_distance = Vector3.Distance(_randomPosition, transform.position);
         GetComponent<RotationDirection>().SetupTargetPosition(_randomPosition);
        // transform.DOMove(randomPosition, GameUtils.CalculateDistanceSpeedToTime(_speed, distance)).OnComplete(RandomMove);
     }

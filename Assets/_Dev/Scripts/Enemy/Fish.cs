@@ -85,9 +85,11 @@ public class Fish : MonoBehaviour
         StatsData.TimeToKnockDown = FishStatsConfig.FishStatsData.TimeToKnockDown;
         StatsData.RegenRate = FishStatsConfig.FishStatsData.RegenRate;
         StatsData.State = FishStatsConfig.FishStatsData.State;
+        //Movement
         StatsData.Speed = FishStatsConfig.FishStatsData.Speed;
         StatsData.RotateSpeed = FishStatsConfig.FishStatsData.RotateSpeed;
         StatsData.Sprint = FishStatsConfig.FishStatsData.Sprint;
+        StatsData.ReachToDistance = FishStatsConfig.FishStatsData.ReachToDistance;
 
         StatsData.RoundPullingDuration = FishStatsConfig.FishStatsData.RoundPullingDuration;
         StatsData.PercentPulling = FishStatsConfig.FishStatsData.PercentPulling;
@@ -103,6 +105,9 @@ public class Fish : MonoBehaviour
         StatsData.TimeWanderingMax = FishStatsConfig.FishStatsData.TimeWanderingMax;
         StatsData.RateToInteresting = FishStatsConfig.FishStatsData.RateToInteresting;
         StatsData.RateToEatBait = FishStatsConfig.FishStatsData.RateToEatBait;
+
+        _randomMovement.SetReachToDistance(StatsData.ReachToDistance);
+        RotationDirection.SetupRotateSpeed(StatsData.RotateSpeed);
     }
     public void CatchBait(Bait bait)
     {
