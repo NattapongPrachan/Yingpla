@@ -11,7 +11,7 @@ using Object = UnityEngine.Object;
 
 public class ObjectPoolManager : MonoInstance<ObjectPoolManager>
 {
-    GameObject _gameobjectRoot,_uiRoot;
+    GameObject _gameobjectRoot,_uiRoot,_soundRoot;
     public Dictionary<string, GameObject> GameObjectCollection = new Dictionary<string, GameObject>();
     public Dictionary<string, IObjectPool<GameObject>> ObjectPoolCollection = new Dictionary<string, IObjectPool<GameObject>>();
 
@@ -24,7 +24,7 @@ public class ObjectPoolManager : MonoInstance<ObjectPoolManager>
     }
     public enum RootName
     {
-        GameObject,UI
+        GameObject,UI,Sound
     }
 
     public bool CollectionChecks = true;
@@ -39,8 +39,11 @@ public class ObjectPoolManager : MonoInstance<ObjectPoolManager>
 
         _uiRoot = new GameObject("UI");
         _uiRoot.transform.position = Vector3.zero;
+
+        _soundRoot = new GameObject("Sound");
+        _soundRoot.transform.position = Vector3.zero;
     }
-    public GameObject GetObject(string objectName , RootName rootName = RootName.GameObject)
+    public GameObject Get(string objectName , RootName rootName = RootName.GameObject)
     {
         var find = ObjectPoolCollection.FirstOrDefault(o => o.Key == objectName).Value;
         if(find == null)
@@ -52,6 +55,18 @@ public class ObjectPoolManager : MonoInstance<ObjectPoolManager>
         _root = rootName;
         return find.Get();
     }
+    //public T Get<T>(string objectName,RootName rootName = RootName.GameObject) where T : Object
+    //{
+    //    var find = ObjectPoolCollection.FirstOrDefault(o => o.Key == objectName).Value;
+    //    if (find == null)
+    //    {
+    //        Debug.LogError($"Error form name {objectName} not find on ObjectPoolCollection");
+    //        return null;
+    //    }
+    //    _objectKey = objectName;
+    //    _root = rootName;
+    //    return find.Get() as T;
+    //}
     public void CreateAssetToPool(GameObject objToPoolObject)
     {
         if (ObjectPoolCollection.ContainsKey(objToPoolObject.name)) return;
@@ -88,6 +103,9 @@ public class ObjectPoolManager : MonoInstance<ObjectPoolManager>
                 break;
             case RootName.UI:
                 gameObject.transform.SetParent(_uiRoot.transform);
+                break;
+            case RootName.Sound:
+                gameObject.transform.SetParent(_soundRoot.transform);
                 break;
         }
         

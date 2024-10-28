@@ -32,7 +32,7 @@ public class DemoAddressable : MonoBehaviour
             ObjectPoolManager.Instance.CreateAssetToPool(resource.Result as GameObject);
             for (int i = 0; i < 1; i++)
             {
-                var obj = ObjectPoolManager.Instance.GetObject(resource.Result.name);
+                var obj = ObjectPoolManager.Instance.Get(resource.Result.name);
                 gameObjects.Enqueue(obj);
             }
         }
@@ -46,7 +46,7 @@ public class DemoAddressable : MonoBehaviour
     public void TryCallObject()
     {
         var bbb = Observable.Interval(System.TimeSpan.FromSeconds(1)).Subscribe(_ => {
-            gameObjects.Enqueue(ObjectPoolManager.Instance.GetObject(AssetLoaderHandle.Instance.ObjectLoadHandleCollection.ElementAt(0).Key));
+            gameObjects.Enqueue(ObjectPoolManager.Instance.Get(AssetLoaderHandle.Instance.ObjectLoadHandleCollection.ElementAt(0).Key));
         }).AddTo(this);
         var aaa = Observable.Interval(System.TimeSpan.FromSeconds(1.1f)).Subscribe(_ => {
             ObjectPoolManager.Instance.ReturnToPool(gameObjects.Dequeue());

@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
-
+[DefaultExecutionOrder(1)]
 public class AssetLoaderHandle : MonoSingleton<AssetLoaderHandle>, ILoader
 {
     public event Action<float> OnLoadProgress;
@@ -184,14 +184,14 @@ public class AssetLoaderHandle : MonoSingleton<AssetLoaderHandle>, ILoader
     #endregion
     #region Get
 
-    public T Get<T>(string key) where T : UnityEngine.Object
+    public static T Get<T>(string key) where T : UnityEngine.Object
     {
-        Debug.Log("Get key "+key+ "contain "+ObjectLoadHandleCollection.ContainsKey(key));
-        if(!ObjectLoadHandleCollection.ContainsKey(key))
+       // Debug.Log("Get key "+key+ "contain "+Instance.ObjectLoadHandleCollection.ContainsKey(key));
+        if(!Instance.ObjectLoadHandleCollection.ContainsKey(key))
         {
            Debug.LogWarning($"Key {key} is not conain in opObjectLoaded");
         }
-        return (T)ObjectLoadHandleCollection[key].Result;
+        return (T)Instance.ObjectLoadHandleCollection[key].Result;
     }
 
     public T TryGet<T>(string key, out bool loaded) where T : UnityEngine.Object
