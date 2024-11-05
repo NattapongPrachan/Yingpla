@@ -18,17 +18,23 @@ MonoBehaviour:
   m_GUID: 785e73c2ff432f5489497cd80a2f5db9
   m_SerializeEntries:
   - m_GUID: 0afceaef91b67ef468420778c862669f
-    m_Address: Assets/_Dev/Assets/Sounds/Demo/Music/YGG_Songran_V1.wav
+    m_Address: Songran
     m_ReadOnly: 0
     m_SerializedLabels:
     - Music
     - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2da24d3420169d747bd2e97c64c1546d
-    m_Address: Assets/_Dev/Assets/Sounds/Demo/SFX/JumpV2.wav
+    m_Address: Jump
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
+    - Sound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 83b27f4552c4a5c4ba3d250c111b0754
+    m_Address: AudioSource
+    m_ReadOnly: 0
+    m_SerializedLabels:
     - Sound
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 92df188a8422249438ce02e667502df1

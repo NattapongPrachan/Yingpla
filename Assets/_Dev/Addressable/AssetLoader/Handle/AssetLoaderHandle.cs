@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -13,6 +14,7 @@ public class AssetLoaderHandle : MonoSingleton<AssetLoaderHandle>, ILoader
 {
     public event Action<float> OnLoadProgress;
     public static event Action<string> OnLoadAssetName;
+    public static Subject<string> OnAssetLoaded;
     public event Action OnLoadComplete;
     public event Action OnLoadAssetFromQueueComplete;
 
@@ -34,7 +36,7 @@ public class AssetLoaderHandle : MonoSingleton<AssetLoaderHandle>, ILoader
     {
         base.Init();
         _preloaderData = new List<AssetLoaderData>();
-
+        OnAssetLoaded = new Subject<string>();
         HandleLocationCollection = new Dictionary<AsyncOperationHandle<IList<IResourceLocation>>, List<string>>();
         ObjectLoadHandleCollection = new Dictionary<string, AsyncOperationHandle<UnityEngine.Object>>();
         AssetLoaderLocationCollection = new Dictionary<string, AsyncOperationHandle<IList<IResourceLocation>>>();
@@ -65,6 +67,8 @@ public class AssetLoaderHandle : MonoSingleton<AssetLoaderHandle>, ILoader
             ObjectLoadHandleCollection.Add(location.PrimaryKey, loader);
         }
         AssetLoaderLocationCollection.Add(assetLoader.key, locations);
+        OnAssetLoaded?.OnNext(assetLoader.key);
+        Depug.Log("Asset Load " + assetLoader.key,Color.green);
         //OnLoadComplete?.Invoke();
     }
     

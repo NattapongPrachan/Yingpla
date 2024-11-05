@@ -14,7 +14,8 @@ public class UIManager : MonoInstance<UIManager>
     }
     public static void Register(BaseUI baseUI)
     {
-        Instance._uiCollection.Add(baseUI.name, baseUI);
+        if(!Instance._uiCollection.ContainsKey(baseUI.name))
+            Instance._uiCollection.Add(baseUI.name, baseUI);
     }
     public static void Unregister(BaseUI baseUI)
     {

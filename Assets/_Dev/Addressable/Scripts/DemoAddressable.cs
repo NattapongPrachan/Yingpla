@@ -1,6 +1,7 @@
 using Addressable.Manager;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,23 +25,18 @@ public class DemoAddressable : MonoBehaviour
     public async void LoadObject(string key)
     {
         AssetLoaderHandle.Instance.AddPreloadData(_assetLoaderData);
-        AssetLoaderHandle.Instance.AddPreloadData(_soundLoaderData);
         await AssetLoaderHandle.Instance.Load();
 
-        foreach (var resource in AssetLoaderHandle.Instance.ObjectLoadHandleCollection.Values)
-        { 
-            ObjectPoolManager.Instance.CreateAssetToPool(resource.Result as GameObject);
+        
+        AssetLoaderHandle.Instance.AssetLoaderLocationCollection["A"].Result.ForEach(location => {
+
+            ObjectPoolManager.Instance.CreateAssetToPool(AssetLoaderHandle.Get<GameObject>(location.PrimaryKey));
             for (int i = 0; i < 1; i++)
             {
-                var obj = ObjectPoolManager.Instance.Get(resource.Result.name);
+                var obj = ObjectPoolManager.Instance.Get(location.PrimaryKey);
                 gameObjects.Enqueue(obj);
             }
-        }
-        //TryCallObject();
-    }
-    void LoadSound()
-    {
-        
+        });
     }
     //test
     public void TryCallObject()

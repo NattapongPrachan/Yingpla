@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc333e60cf34804f8467b177012ffd5, type: 3}
   m_Name: DemoSoundLoader
   m_EditorClassIdentifier: 
-  key: 
+  key: Sound
   labels:
   - Sound
