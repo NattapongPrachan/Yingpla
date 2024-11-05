@@ -20,6 +20,7 @@ public class BaseUI : SerializedMonoBehaviour
     public void UnFocus() { _canvas.sortingOrder = 0; }
     public void Dispose()
     {
+        UIManager.Unregister(this);
         if(gameObject.TryGetComponent(out ReturnToPool returnToPool))
         {
             returnToPool.Release();

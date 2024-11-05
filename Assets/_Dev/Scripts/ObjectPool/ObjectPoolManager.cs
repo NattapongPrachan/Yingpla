@@ -1,13 +1,7 @@
-﻿using NUnit.Framework.Constraints;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.Rendering.VirtualTexturing;
-using Object = UnityEngine.Object;
 
 public class ObjectPoolManager : MonoInstance<ObjectPoolManager>
 {

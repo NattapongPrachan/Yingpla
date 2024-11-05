@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _assetLoaderData: {fileID: 11400000, guid: 37cd9ab5c5e53f141aa7a90f1b543996, type: 2}
-  _soundLoaderData: {fileID: 0}
+  _soundLoaderData: {fileID: 11400000, guid: 494b5bb8cec60754c9fde0ac36d20836, type: 2}
   _gameObjects: []
 --- !u!114 &1024677465
 MonoBehaviour:

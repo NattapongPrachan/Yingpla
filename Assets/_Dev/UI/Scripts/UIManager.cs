@@ -5,13 +5,12 @@ using UnityEngine;
 public class UIManager : MonoInstance<UIManager>
 {
 	[SerializeField]Dictionary<string , BaseUI> _uiCollection;
-	protected void Start()
-	{
-		_uiCollection = new Dictionary<string, BaseUI>();
-        foreach (BaseUI canvas in _uiCollection.Values)
-        {
-        }
+    public override void Init()
+    {
+        base.Init();
+        _uiCollection = new Dictionary<string, BaseUI>();
     }
+
     public static void Register(BaseUI baseUI)
     {
         if(!Instance._uiCollection.ContainsKey(baseUI.name))
